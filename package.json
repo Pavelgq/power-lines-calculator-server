@@ -1,0 +1,27 @@
+{
+  "name": "sheld-pipe-cable-server",
+  "version": "0.1.0",
+  "description": "backend for power-lines-calculators project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node ingex.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Pavelgq/power-lines-calculator-server.git"
+  },
+  "author": "Pavel Gordeev <pavelgq@yandex.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pavelgq/power-lines-calculators-server/issues"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
