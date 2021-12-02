@@ -1,12 +1,6 @@
-const express = require('express');
+const app = require('./src/server/run');
 
 const PORT = process.env.PORT || 8080;
-
-const app = express();
-
-app.get('/', (req, res) => {
-  res.send('HELLO + WORLD')
-})
 
 app.listen(PORT, () => {
   console.log('Server started on port:', PORT);
