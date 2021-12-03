@@ -3,6 +3,8 @@ const {
 } = require(`express`);
 const logger = require('../../utils/logger');
 
+const pool = require('../../server/db');
+
 const userRouter = new Router();
 
 userRouter.use((req, res, next) => {
@@ -18,8 +20,19 @@ userRouter.use((req, res, next) => {
  */
 userRouter.get('/all', async (req, res) => {
   try {
-    const result = await runQuery('select id, firstName, lastName from users')
+    const result = await pool.query('select * from users')
     res.json(result.recordset);
+  }
+  catch (error) {
+    logger.info('error:', error)
+  }
+});
+
+userRouter.post('/add', async (req, res) => {
+  try {
+    const { id, firstname, lastname, company, acceptCode } = req.body;
+    await pool.query(`INSERT INTO users VALUES (${id},${firstname},${lastname},${company},${acceptCode});`);
+    res.send('success');
   }
   catch (error) {
     logger.info('error:', error)
