@@ -1,5 +1,5 @@
 {
-  "name": "sheld-pipe-cable-server",
+  "name": "power-lines-calculator-server",
   "version": "0.1.0",
   "description": "backend for power-lines-calculators project",
   "main": "index.js",
@@ -18,8 +18,11 @@
     "url": "https://github.com/Pavelgq/power-lines-calculators-server/issues"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
     "winston": "^3.3.3"
   },
