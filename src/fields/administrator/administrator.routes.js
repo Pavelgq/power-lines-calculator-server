@@ -22,8 +22,8 @@ administratorRouter.use((req, res, next) => {
 administratorRouter.post('/create', authenticateToken, controller.createAdministrator);
 
 administratorRouter.post('/login', authenticateToken, controller.loginAdministrator);
-// administratorRouter.get('/:id', authenticateToken, AdministratorController.getAdministrator);
-// administratorRouter.put('/:id', authenticateToken, AdministratorController.changeAdministrator);
+administratorRouter.get('/:id', authenticateToken, controller.getAdministrator);
+administratorRouter.put('/:id', authenticateToken, controller.changeAdministrator);
 // administratorRouter.delete('/:id', authenticateToken, AdministratorController.deleteAdministrator);
 
 
