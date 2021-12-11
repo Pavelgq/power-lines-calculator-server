@@ -5,7 +5,7 @@
 - [Administrator](#admin)
 - [Client](#client)
 - [Accept](#accept)
-- Action
+- [Action](#action)
 
 <a name="admin"><h2>Administrator</h2></a>
 
@@ -298,3 +298,72 @@
   "message": "Ключ успешно удален"
 }
 ```
+
+<a name="action"><h2>Action</h2></a>
+
+### Сохранение действий клиента
+
+#### Request
+
+`POST /api/v1/action/add`
+
+```json
+{
+  "client_id": "",
+  "type": "calculation | save | load",
+  "data": {}
+}
+```
+
+#### Response
+
+```json
+{
+  "message": "Действие пользователя сохранено"
+}
+```
+
+- Необходимо иметь `acceptToken`, который появляется после успешной проверки ключа
+
+### Получение списка всех действий
+
+#### Request
+
+`GET /api/v1/action/all`
+
+#### Response
+
+```json
+[
+  {
+    "client_id": "",
+    "type": "",
+    "date": "",
+    "path_of_data": ""
+  },
+  {
+    "client_id": "",
+    "type": "",
+    "date": "",
+    "path_of_data": ""
+  }
+]
+```
+
+### Получение списка сохраненных расчетов клиента по id
+
+#### Request
+
+`GET /api/v1/action/:id`
+
+#### Response
+
+```json
+{
+  "client_id": "",
+  "type": "calculation | save | load",
+  "data": {}
+}
+```
+
+- Необходимо иметь `acceptToken`, который появляется после успешной проверки ключа

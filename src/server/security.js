@@ -37,6 +37,8 @@ function checkClientKey(req, res, next) {
   });
 }
 
+//TODO: Проверка после парсинга ключа на совпадение с ключами в базе
+
 module.exports = {
   authenticateToken,
   checkClientKey,
