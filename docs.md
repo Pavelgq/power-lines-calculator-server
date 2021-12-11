@@ -2,8 +2,8 @@
 
 # Routes
 
-- User
 - [Administrator](#admin)
+- [Client](#client)
 - Accept
 - Action
 
@@ -101,6 +101,108 @@
 #### Request
 
 `DELETE /api/v1/admin/:id`
+
+#### Response
+
+```json
+{
+  "message": "Пользователь успешно удален"
+}
+```
+
+<a name="client"><h2>Client</h2></a>
+
+### Добавление нового клиента
+
+#### Request
+
+`POST /api/v1/client/create`
+
+```json
+{
+  "first_name": "",
+  "last_name": "",
+  "company": "",
+  "office_position": "",
+  "phone_number": "",
+  "email": ""
+}
+```
+
+#### Response
+
+```json
+{
+  "message": "Пользователь успешно cоздан"
+}
+```
+
+- В заголовках необходимо передать jwt token: `token: JWT......`
+
+### Получить данные всех клиентов
+
+#### Request
+
+`GET /api/v1/client/all`
+
+#### Response
+
+```json
+[
+  {"client1"},
+  {"client2"}
+]
+```
+
+### Получить данные клиента по id
+
+#### Request
+
+`GET /api/v1/user/:id`
+
+#### Response
+
+```json
+{
+  "first_name": "",
+  "last_name": "",
+  "company": "",
+  "office_position": "",
+  "phone_number": "",
+  "email": ""
+}
+```
+
+### Изменить данные клиента по id
+
+#### Request
+
+`PUT /api/v1/user/:id`
+
+```json
+{
+  "first_name": "",
+  "last_name": "",
+  "company": "",
+  "office_position": "",
+  "phone_number": "",
+  "email": ""
+}
+```
+
+#### Response
+
+```json
+{
+  "message": "Данные пользователя изменены успешно"
+}
+```
+
+### Удаление клиента по id
+
+#### Request
+
+`DELETE /api/v1/user/:id`
 
 #### Response
 
