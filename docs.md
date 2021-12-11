@@ -3,11 +3,11 @@
 # Routes
 
 - User
-- Administrator
+- [Administrator](#admin)
 - Accept
 - Action
 
-## Administrator
+<a name="admin"><h2>Administrator</h2></a>
 
 ### Создает нового администратора
 
@@ -25,7 +25,12 @@
 
 #### Response
 
-{token, message: "Пользователь успешно зарегистрирован"}
+```json
+{
+  "token": "JWT...",
+  "message": "Пользователь успешно зарегистрирован"
+}
+```
 
 - В заголовках необходимо передать jwt token: `token: JWT......`
 - Зарегистрировать администратора может только пользователь с правами администратора

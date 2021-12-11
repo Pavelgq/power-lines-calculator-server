@@ -93,9 +93,7 @@ class AdministratorController {
     try {
       const adminId = req.params.id;
       const newData = req.body;
-      if (!adminId) {
-        return res.status(404).json({message: 'Такого id не существует'}); 
-      }
+      
       const candidate = await db.query(`SELECT * FROM administrator WHERE id = '${adminId}'`);
       if (!candidate.rowCount) {
         return res.status(400).json({message: 'Пользователя с таким id не существует'});
@@ -113,7 +111,17 @@ class AdministratorController {
   }
 
   async deleteAdministrator (req, res) {
-
+    try {
+      const adminId = req.params.id;
+      const candidate = await db.query(`SELECT * FROM administrator WHERE id = '${adminId}'`);
+      if (!candidate.rowCount) {
+        return res.status(400).json({message: 'Пользователя с таким id не существует'});
+      }
+      await db.query(`DELETE FROM administrator WHERE id = '${adminId}';`);
+      return res.json({message: "Пользователь успешно удален"});
+    } catch (error) {
+      console.error('admin delete: ', error);
+    }
   }
 }
 

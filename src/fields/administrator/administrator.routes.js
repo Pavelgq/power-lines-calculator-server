@@ -24,7 +24,7 @@ administratorRouter.post('/create', authenticateToken, controller.createAdminist
 administratorRouter.post('/login', authenticateToken, controller.loginAdministrator);
 administratorRouter.get('/:id', authenticateToken, controller.getAdministrator);
 administratorRouter.put('/:id', authenticateToken, controller.changeAdministrator);
-// administratorRouter.delete('/:id', authenticateToken, AdministratorController.deleteAdministrator);
+administratorRouter.delete('/:id', authenticateToken, controller.deleteAdministrator);
 
 
 module.exports = administratorRouter;
