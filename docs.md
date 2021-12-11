@@ -4,7 +4,7 @@
 
 - [Administrator](#admin)
 - [Client](#client)
-- Accept
+- [Accept](#accept)
 - Action
 
 <a name="admin"><h2>Administrator</h2></a>
@@ -209,5 +209,92 @@
 ```json
 {
   "message": "Пользователь успешно удален"
+}
+```
+
+<a name="accept"><h2>Accept</h2></a>
+
+### Проверка ключа
+
+#### Request
+
+`GET /api/v1/accept/check/:key`
+
+#### Response
+
+```json
+{
+  "acceptToken": "..."
+}
+```
+
+- Полученный `acceptToken` необходим для доступа к путям `/action`
+
+### Создание ключа для клиента
+
+#### Request
+
+`POST /api/v1/accept/:id`
+
+```json
+{
+  "validDate": "10-10-2021"
+}
+```
+
+#### Response
+
+```json
+{
+  "key": "...",
+  "message": "Новый ключ для клиента добавлен в базу"
+}
+```
+
+### Получение ключа по id клиента
+
+#### Request
+
+`GET /api/v1/accept/:id`
+
+#### Response
+
+```json
+{
+  "key:": "..."
+}
+```
+
+### Изменение ключа по id клиента
+
+#### Request
+
+`PUT /api/v1/accept/:id`
+
+```json
+{
+  "validDate": "10-10-2021"
+}
+```
+
+#### Response
+
+```json
+{
+  "message": "Ключ успешно изменен"
+}
+```
+
+### Удаление ключа по id клиента
+
+#### Request
+
+`DELETE /api/v1/accept/:id`
+
+#### Response
+
+```json
+{
+  "message": "Ключ успешно удален"
 }
 ```

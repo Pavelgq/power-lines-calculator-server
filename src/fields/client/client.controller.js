@@ -52,9 +52,9 @@ class ClientController {
       if (!clientData.rowCount) {
         return res.status(400).json({ message: "Пользователь не найден" });
       }
-      const newUserData = req.body;
+      const newClientData = req.body;
 
-      const payload = { ...clientData, ...newUserData };
+      const payload = { ...clientData, ...newClientData };
 
       await db.query(
         `UPDATE client SET first_name = '${payload.first_name}', last_name = '${payload.last_name}', company = '${payload.company}', office_position = '${payload.office_position}', phone_number = '${payload.phone_number}', email = '${payload.email}' WHERE id = '${clientId}';`

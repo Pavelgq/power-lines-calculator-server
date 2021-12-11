@@ -2,9 +2,8 @@ const logger = require("../../utils/logger");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../../server/db");
-require("dotenv").config();
 
-const jwtsecret = process.env.JWTSECRET;
+const jwtsecret = process.env.JWT_ADMIN_SECRET;
 
 class AdministratorController {
   /**

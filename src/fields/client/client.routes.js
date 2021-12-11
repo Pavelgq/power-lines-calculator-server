@@ -2,7 +2,7 @@ const { Router } = require(`express`);
 const logger = require("../../utils/logger");
 
 const pool = require("../../server/db");
-const authenticateToken = require("../../server/security");
+const { authenticateToken } = require("../../server/security");
 const ClientController = require("./client.controller");
 
 const clientRouter = new Router();

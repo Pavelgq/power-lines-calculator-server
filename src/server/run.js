@@ -1,11 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const logger = require("../utils/logger");
+require("dotenv").config();
 
 const pool = require("./db");
 
 const clientRouter = require(`../fields/client/client.routes`);
 const administratorRoutes = require(`../fields/administrator/administrator.routes`);
+const acceptRoutes = require(`../fields/accept/accept.routes`);
+const actionRoutes = require(`../fields/action/action.routes`);
 
 const app = express();
 
@@ -17,6 +20,8 @@ app.use(cors());
 
 app.use(`/api/v1/user`, clientRouter);
 app.use(`/api/v1/admin`, administratorRoutes);
+app.use(`/api/v1/accept`, acceptRoutes);
+app.use(`/api/v1/action`, actionRoutes);
 
 app.get("/", (req, res) => {
   res.send("Power Lines Calculators Server");
