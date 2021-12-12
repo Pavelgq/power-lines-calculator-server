@@ -1,11 +1,9 @@
 const fs = require("fs");
-// const path = require("path");
+const path = require("path");
 const jwt = require("jsonwebtoken");
 const logger = require("../../utils/logger");
 const db = require("../../server/db");
 const { generateKey, checkKey } = require("../../utils/accept-utils");
-
-const path = "./data/calc-data";
 
 class ActionControllers {
   async createNewAction(req, res) {
@@ -14,7 +12,7 @@ class ActionControllers {
       console.log(req.body);
       let dataPath = "";
       if (data) {
-        dataPath = `${path}/${client_id}-${Date.now()}.json`;
+        dataPath = `${client_id}-${Date.now()}.json`;
         console.log(dataPath);
         await fs.writeFile(
           dataPath,
@@ -69,6 +67,28 @@ class ActionControllers {
       logger.error("action get one: ", error);
       return res.status(400).json({ error });
     }
+  }
+
+  async getSaveFile(req, res, next) {
+    console.log("afsdfdsa");
+    var options = {
+      root: path.join(__dirname, "../../../data/calc-data"),
+      dotfiles: "deny",
+      headers: {
+        "x-timestamp": Date.now(),
+        "x-sent": true,
+      },
+    };
+    console.log(options);
+    var fileName = req.params.name;
+    console.log(fileName);
+    res.sendFile(fileName, options, function (err) {
+      if (err) {
+        next(err);
+      } else {
+        console.log("Sent:", fileName);
+      }
+    });
   }
 
   async authorizeAction(req, res) {}

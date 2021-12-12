@@ -4,6 +4,7 @@ const logger = require("../../utils/logger");
 const { authenticateToken, checkClientKey } = require("../../server/security");
 
 const ActionController = require("../action/action.controller");
+const acceptRouter = require("../accept/accept.routes");
 
 const actionRouter = new Router();
 
@@ -19,11 +20,11 @@ actionRouter.use((req, res, next) => {
 
   next();
 });
+actionRouter.get("/file/:name", controller.getSaveFile);
 
 actionRouter.post("/add", checkClientKey, controller.createNewAction);
-// TODO пагинация выдачи всех экшонов
 actionRouter.get("/all", authenticateToken, controller.getAllActions);
-actionRouter.get("/:id", checkClientKey, controller.getClientActions);
+actionRouter.get("/client/:id", checkClientKey, controller.getClientActions);
 actionRouter.post("/auth", checkClientKey, controller.authorizeAction);
 
 module.exports = actionRouter;
