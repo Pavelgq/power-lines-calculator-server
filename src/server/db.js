@@ -1,8 +1,7 @@
 const Pool = require("pg").Pool;
 
 let dbConfig;
-console.log(process.env.DEV_MODE);
-if (process.env.DEV_MODE) {
+if (process.env.DEV_MODE == 1) {
   console.log("local");
   dbConfig = {
     host: "localhost",
