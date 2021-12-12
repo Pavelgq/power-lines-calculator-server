@@ -36,9 +36,40 @@ class ActionControllers {
     }
   }
 
-  async getClientActions(req, res) {}
+  async getAllActions(req, res) {
+    try {
+      const page = req.query.page;
+      const limit = req.query.limit;
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
+      const actions = await db.query(`SELECT * FROM action;`);
+      const data = actions.rows;
+      const result = data.slice(startIndex, endIndex);
+      res.status(200).json(result);
+    } catch (error) {
+      logger.error("action get all: ", error);
+      return res.status(400).json({ error });
+    }
+  }
 
-  async getAllActions(req, res) {}
+  async getClientActions(req, res) {
+    try {
+      const clientId = req.params.id;
+      const page = req.query.page;
+      const limit = req.query.limit;
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
+      const actions = await db.query(
+        `SELECT * FROM action WHERE client_id = '${clientId}';`
+      );
+      const data = actions.rows;
+      const result = data.slice(startIndex, endIndex);
+      res.status(200).json(result);
+    } catch (error) {
+      logger.error("action get one: ", error);
+      return res.status(400).json({ error });
+    }
+  }
 
   async authorizeAction(req, res) {}
 }

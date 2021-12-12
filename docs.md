@@ -329,7 +329,7 @@
 
 #### Request
 
-`GET /api/v1/action/all`
+`GET /api/v1/action/all?page=1&limit=5`
 
 #### Response
 
@@ -354,7 +354,7 @@
 
 #### Request
 
-`GET /api/v1/action/:id`
+`GET /api/v1/action/:id?page=1&limit=5`
 
 #### Response
 
