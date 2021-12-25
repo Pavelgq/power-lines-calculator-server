@@ -19,6 +19,7 @@ class ClientController {
       res.json({ message: "Пользователь успешно создан" });
     } catch (error) {
       logger.error("client create:", error);
+      return res.status(400).json({ error });
     }
   }
   async getUsers(req, res) {
@@ -27,6 +28,7 @@ class ClientController {
       return res.json(allUsers.rows);
     } catch (error) {
       logger.error("client get all:", error);
+      return res.status(400).json({ error });
     }
   }
   async getOneUser(req, res) {
@@ -41,6 +43,7 @@ class ClientController {
       return res.json(client.rows[0]);
     } catch (error) {
       logger.error("client get one:", error);
+      return res.status(400).json({ error });
     }
   }
   async updateUser(req, res) {
@@ -62,6 +65,7 @@ class ClientController {
       return res.json({ message: "Данные пользователя изменены успешно" });
     } catch (error) {
       logger.error("client update:", error);
+      return res.status(400).json({ error });
     }
   }
   async deleteUser(req, res) {
@@ -77,6 +81,7 @@ class ClientController {
       return res.json({ message: "Пользователь успешно удален" });
     } catch (error) {
       logger.error("client delete:", error);
+      return res.status(400).json({ error });
     }
   }
 }

@@ -70,27 +70,28 @@ class ActionControllers {
   }
 
   async getSaveFile(req, res, next) {
-    console.log("afsdfdsa");
-    var options = {
-      root: path.join(__dirname, "../../../data/calc-data"),
-      dotfiles: "deny",
-      headers: {
-        "x-timestamp": Date.now(),
-        "x-sent": true,
-      },
-    };
-    console.log(options);
-    var fileName = req.params.name;
-    console.log(fileName);
-    res.sendFile(fileName, options, function (err) {
-      if (err) {
-        next(err);
-      } else {
-        console.log("Sent:", fileName);
-      }
-    });
+    try {
+      let options = {
+        root: path.join(__dirname, "../../../data/calc-data"),
+        dotfiles: "deny",
+        headers: {
+          "x-timestamp": Date.now(),
+          "x-sent": true,
+        },
+      };
+      let fileName = req.params.name;
+      res.sendFile(fileName, options, function (err) {
+        if (err) {
+          next(err);
+        } else {
+          console.log("Sent:", fileName);
+        }
+      });
+    } catch (error) {
+      logger.error("action safe file: ", error);
+      return res.status(400).json({ error });
+    }
   }
-
   async authorizeAction(req, res) {}
 }
 

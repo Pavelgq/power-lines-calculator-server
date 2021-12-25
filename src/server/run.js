@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(cors());
 
-app.use(`/api/v1/user`, clientRouter);
+app.use(`/api/v1/client`, clientRouter);
 app.use(`/api/v1/admin`, administratorRoutes);
 app.use(`/api/v1/accept`, acceptRoutes);
 app.use(`/api/v1/action`, actionRoutes);

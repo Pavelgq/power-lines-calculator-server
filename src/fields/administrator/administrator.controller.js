@@ -40,6 +40,7 @@ class AdministratorController {
       });
     } catch (error) {
       logger.error("admin create", error);
+      return res.status(400).json({ error });
     }
   }
 
@@ -62,6 +63,7 @@ class AdministratorController {
       const user = candidate.rows[0];
 
       const match = bcrypt.compareSync(password, user.password);
+
       if (!match) {
         return res.status(400).json({ message: "Неверный пароль" });
       }
@@ -74,11 +76,21 @@ class AdministratorController {
       return res.json({
         id: user.id,
         status: user.status,
-        user: user.login,
+        login: user.login,
         token: "JWT " + token,
       });
     } catch (error) {
       logger.log("admin login: ", error);
+      return res.status(400).json({ error });
+    }
+  }
+
+  async getSucces(req, res) {
+    try {
+      return res.status(200).json({ message: "Доступ разрешен" });
+    } catch (error) {
+      logger.log("admin profile: ", error);
+      return res.status(400).json({ error });
     }
   }
 
@@ -100,6 +112,7 @@ class AdministratorController {
       return res.json(params);
     } catch (error) {
       logger.error("admin get: ", error);
+      return res.status(400).json({ error });
     }
   }
 
@@ -128,6 +141,7 @@ class AdministratorController {
       });
     } catch (error) {
       logger.error("admin put: ", error);
+      return res.status(400).json({ error });
     }
   }
 
@@ -146,6 +160,7 @@ class AdministratorController {
       return res.json({ message: "Пользователь успешно удален" });
     } catch (error) {
       logger.error("admin delete: ", error);
+      return res.status(400).json({ error });
     }
   }
 }
