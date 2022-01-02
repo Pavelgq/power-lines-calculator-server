@@ -72,6 +72,7 @@ class AdministratorController {
       const payload = {
         login: user.login,
         password: user.password,
+        status: user.status,
       };
       const token = jwt.sign(payload, jwtsecret);
       return res.json({
@@ -89,13 +90,11 @@ class AdministratorController {
   async getSuccess(req, res) {
     try {
       const admin = req.user;
-      return res
-        .status(200)
-        .json({
-          login: admin.login,
-          status: admin.status,
-          message: "Доступ разрешен",
-        });
+      return res.status(200).json({
+        login: admin.login,
+        status: admin.status,
+        message: "Доступ разрешен",
+      });
     } catch (error) {
       logger.log("admin profile: ", error);
       return res.status(400).json({ error });
