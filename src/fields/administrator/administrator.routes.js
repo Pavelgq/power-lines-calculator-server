@@ -26,7 +26,7 @@ administratorRouter.post(
 );
 
 administratorRouter.post("/login", controller.loginAdministrator);
-administratorRouter.get("/profile", authenticateToken, controller.getSucces);
+administratorRouter.get("/profile", authenticateToken, controller.getSuccess);
 administratorRouter.get("/:id", authenticateToken, controller.getAdministrator);
 administratorRouter.put(
   "/:id",

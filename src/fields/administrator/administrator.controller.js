@@ -85,7 +85,7 @@ class AdministratorController {
     }
   }
 
-  async getSucces(req, res) {
+  async getSuccess(req, res) {
     try {
       return res.status(200).json({ message: "Доступ разрешен" });
     } catch (error) {

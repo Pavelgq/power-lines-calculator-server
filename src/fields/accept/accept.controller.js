@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const logger = require("../../utils/logger");
 const db = require("../../server/db");
-const { generateKey, checkKey } = require("../../utils/accept-utils");
+const { generateKey, checkKeyDate } = require("../../utils/accept-utils");
 
 const jwtsecret = process.env.JWT_CLIENT_SECRET;
 
@@ -10,12 +10,14 @@ class AcceptController {
     try {
       const key = req.params.key;
 
-      if (checkKey(key)) {
-        const token = jwt.sign(key, jwtsecret);
-        return res.json({ acceptToken: token });
-      } else {
+      const keys = await db.query(
+        `SELECT * FROM accept WHERE client_key = '${key}'`
+      );
+      if (!client.rowCount) {
         return res.json({ message: "Ключ не действителен" });
       }
+      const token = jwt.sign(key, jwtsecret);
+      return res.json({ acceptToken: token });
     } catch (error) {
       logger.error("accept check: ", error);
       return res.status(400).json({ error });
@@ -36,13 +38,19 @@ class AcceptController {
       const key = await db.query(
         `SELECT * FROM accept WHERE client_id = '${clientId}'`
       );
-      if (key.rowCount) {
+      if (key.rowCount && checkKeyDate(key.rows[0].valid_until)) {
         return res.json({ message: "У пользователя уже есть ключ" });
       }
-      const newKey = generateKey(validDate);
-      await db.query(
-        `INSERT INTO accept (client_id, client_key, valid_until) values ('${clientId}', '${newKey}', '${validDate}');`
-      );
+      const newKey = generateKey(validDate, clientId);
+      if (!key.rowCount) {
+        await db.query(
+          `INSERT INTO accept (client_id, client_key, valid_until) values ('${clientId}', '${newKey}', '${validDate}');`
+        );
+      } else {
+        await db.query(
+          `UPDATE accept SET client_key = '${newKey}', valid_until = '${validDate}', update = now() WHERE client_id = '${clientId}';`
+        );
+      }
 
       return res.json({
         key: newKey,
