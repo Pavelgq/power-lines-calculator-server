@@ -441,3 +441,6 @@
 {"level":"error","message":"accept add:  code is not defined","stack":"ReferenceError: code is not defined\n    at generateKey (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/utils/accept-utils.js:8:15)\n    at createKeyAccept (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/fields/accept/accept.controller.js:44:22)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
 {"level":"info","message":"Server running at 8080/"}
 {"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}

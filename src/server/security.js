@@ -15,7 +15,6 @@ function authenticateToken(req, res, next) {
     }
     console.log("check token:", user);
     req.user = user;
-
     next();
   });
 }
