@@ -20,7 +20,6 @@ actionRouter.use((req, res, next) => {
 
   next();
 });
-actionRouter.get("/file/:name", controller.getSaveFile);
 
 actionRouter.post("/add", checkClientKey, controller.createNewAction);
 actionRouter.get("/all", authenticateToken, controller.getAllActions);
