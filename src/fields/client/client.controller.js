@@ -24,7 +24,9 @@ class ClientController {
   }
   async getUsers(req, res) {
     try {
-      const allUsers = await db.query(`SELECT * FROM client`);
+      const allUsers = await db.query(
+        `SELECT client.*, accept.client_key, accept.valid_until FROM client LEFT JOIN accept ON accept.client_id = client.id;`
+      );
       return res.json(allUsers.rows);
     } catch (error) {
       logger.error("client get all:", error);
@@ -35,7 +37,7 @@ class ClientController {
     try {
       const clientId = req.params.id;
       const client = await db.query(
-        `SELECT * FROM client WHERE id = '${clientId}'`
+        `SELECT client.*, accept.client_key, accept.valid_until FROM client LEFT JOIN accept ON accept.client_id = client.id WHERE id = '${clientId}'`
       );
       if (!client.rowCount) {
         return res.status(400).json({ message: "Пользователь не найден" });
