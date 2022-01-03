@@ -13,7 +13,7 @@ class AcceptController {
       const keys = await db.query(
         `SELECT * FROM accept WHERE client_key = '${key}'`
       );
-      if (!client.rowCount) {
+      if (!keys.rowCount) {
         return res.json({ message: "Ключ не действителен" });
       }
       const token = jwt.sign(key, jwtsecret);
