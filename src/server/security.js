@@ -20,7 +20,7 @@ function authenticateToken(req, res, next) {
 }
 
 function checkClientKey(req, res, next) {
-  const clientTokenHeader = req.headers["accept"];
+  const clientTokenHeader = req.headers["acceptToken"];
   if (!clientTokenHeader) {
     return res.sendStatus(401);
   }

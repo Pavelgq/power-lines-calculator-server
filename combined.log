@@ -459,3 +459,5 @@
 {"level":"error","message":"accept check:  client is not defined","stack":"ReferenceError: client is not defined\n    at checkKeyAccept (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/fields/accept/accept.controller.js:16:7)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
 {"level":"info","message":"Server running at 8080/"}
 {"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}

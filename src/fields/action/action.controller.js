@@ -36,12 +36,12 @@ class ActionControllers {
 
   async getAllActions(req, res) {
     try {
-      const page = req.query.page;
-      const limit = req.query.limit;
-      const startIndex = (page - 1) * limit;
-      const endIndex = page * limit;
       const actions = await db.query(`SELECT * FROM action;`);
       const data = actions.rows;
+      const page = req.query.page || 1;
+      const limit = req.query.limit || data.length;
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
       const result = data.slice(startIndex, endIndex);
       res.status(200).json(result);
     } catch (error) {
