@@ -50,8 +50,8 @@ class ActionControllers {
       const data = actions.rows;
       const page = req.query.page || 1;
       const limit = req.query.limit || data.length;
-      const startIndex = (page - 1) * limit;
-      const endIndex = page * limit;
+      const startIndex = page * limit;
+      const endIndex = page * limit + limit;
       const length = data.length;
       const result = { data: data.slice(startIndex, endIndex) };
       result.total_items = length;
@@ -67,8 +67,8 @@ class ActionControllers {
       const clientId = req.params.id;
       const page = req.query.page;
       const limit = req.query.limit;
-      const startIndex = (page - 1) * limit;
-      const endIndex = page * limit;
+      const startIndex = page * limit;
+      const endIndex = page * limit + limit;
       const actions = await db.query(
         `SELECT * FROM action WHERE client_id = '${clientId}';`
       );
