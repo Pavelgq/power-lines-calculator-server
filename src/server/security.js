@@ -20,21 +20,25 @@ function authenticateToken(req, res, next) {
 }
 
 function checkClientKey(req, res, next) {
-  const clientTokenHeader = req.headers["acceptToken"];
+  const clientTokenHeader = req.headers["accept-token"];
   if (!clientTokenHeader) {
     return res.sendStatus(401);
   }
 
-  jwt.verify(clientTokenHeader, process.env.JWT_CLIENT_SECRET, (err, user) => {
-    if (err) {
-      logger.error(err);
-      return res.sendStatus(403);
-    }
-    console.log("check accept:", user);
-    req.user = user;
+  jwt.verify(
+    clientTokenHeader,
+    process.env.JWT_CLIENT_SECRET,
+    (err, accept_key) => {
+      if (err) {
+        logger.error(err);
+        return res.sendStatus(403);
+      }
+      console.log("check accept:", accept_key);
+      req.accept_key = accept_key;
 
-    next();
-  });
+      next();
+    }
+  );
 }
 
 //TODO: Проверка после парсинга ключа на совпадение с ключами в базе
