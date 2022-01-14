@@ -37,13 +37,24 @@ class ActionControllers {
 
   async getAllActions(req, res) {
     try {
-      const actions = await db.query(`SELECT * FROM action;`);
+      const clientId = req.query.client_id || -1;
+      let actions = {};
+
+      if (clientId !== -1) {
+        actions = await db.query(
+          `SELECT * FROM action WHERE client_id = ${clientId};`
+        );
+      } else {
+        actions = await db.query(`SELECT * FROM action;`);
+      }
       const data = actions.rows;
       const page = req.query.page || 1;
       const limit = req.query.limit || data.length;
       const startIndex = (page - 1) * limit;
       const endIndex = page * limit;
-      const result = data.slice(startIndex, endIndex);
+      const length = data.length;
+      const result = { data: data.slice(startIndex, endIndex) };
+      result.total_items = length;
       res.status(200).json(result);
     } catch (error) {
       logger.error("action get all: ", error);
@@ -62,7 +73,9 @@ class ActionControllers {
         `SELECT * FROM action WHERE client_id = '${clientId}';`
       );
       const data = actions.rows;
-      const result = data.slice(startIndex, endIndex);
+      const length = data.length;
+      const result = { data: data.slice(startIndex, endIndex) };
+      result.total_items = length;
       res.status(200).json(result);
     } catch (error) {
       logger.error("action get one: ", error);

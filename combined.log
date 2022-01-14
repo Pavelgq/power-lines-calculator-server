@@ -474,3 +474,20 @@
 {"level":"info","message":"Server running at 8080/"}
 {"level":"info","message":"Server running at 8080/"}
 {"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"error","message":"action get all:  Cannot read properties of undefined (reading 'length')","stack":"TypeError: Cannot read properties of undefined (reading 'length')\n    at getAllActions (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/fields/action/action.controller.js:54:27)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"code":"42703","file":"parse_relation.c","hint":"Perhaps you meant to reference the column \"action.id\".","length":158,"level":"error","line":"3599","message":"action get all:  column \"sd\" does not exist","name":"error","position":"40","routine":"errorMissingColumn","severity":"ERROR","stack":"error: column \"sd\" does not exist\n    at Parser.parseErrorMessage (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/node_modules/pg-protocol/dist/parser.js:287:98)\n    at Parser.handlePacket (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/node_modules/pg-protocol/dist/parser.js:126:29)\n    at Parser.parse (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/node_modules/pg-protocol/dist/parser.js:39:38)\n    at Socket.<anonymous> (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/node_modules/pg-protocol/dist/index.js:11:42)\n    at Socket.emit (node:events:390:28)\n    at addChunk (node:internal/streams/readable:315:12)\n    at readableAddChunk (node:internal/streams/readable:289:9)\n    at Socket.Readable.push (node:internal/streams/readable:228:10)\n    at TCP.onStreamRead (node:internal/stream_base_commons:199:23)"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
