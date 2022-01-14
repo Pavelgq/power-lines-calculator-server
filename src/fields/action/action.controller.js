@@ -8,7 +8,7 @@ const { generateKey, checkKey } = require("../../utils/accept-utils");
 class ActionControllers {
   async createNewAction(req, res) {
     try {
-      const { client_id, type, data } = req.body;
+      const { client_id, type, data, project_name } = req.body;
       const { accept_key } = req;
       console.log(req.body);
       let dataPath = "";
@@ -24,7 +24,7 @@ class ActionControllers {
         );
 
         await db.query(
-          `INSERT INTO action (client_id, type, path_to_data, accept_key) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}');`
+          `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}');`
         );
 
         return res.json({ message: "Действие пользователя сохранено" });

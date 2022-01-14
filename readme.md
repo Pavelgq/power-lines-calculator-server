@@ -332,7 +332,8 @@
 {
   "client_id": "",
   "type": "calculation | save | load",
-  "data": {}
+  "data": {},
+  "project_name": ""
 }
 ```
 
@@ -360,13 +361,17 @@
     "client_id": "",
     "type": "",
     "date": "",
-    "path_of_data": ""
+    "path_of_data": "",
+    "accept_key": "",
+    "project_name": ""
   },
   {
     "client_id": "",
     "type": "",
     "date": "",
-    "path_of_data": ""
+    "path_of_data": "",
+    "accept_key": "",
+    "project_name": ""
   }
 ]
 ```
@@ -383,7 +388,9 @@
 {
   "client_id": "",
   "type": "calculation | save | load",
-  "data": {}
+  "data": {},
+  "accept_key": "",
+  "project_name": ""
 }
 ```
 

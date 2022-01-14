@@ -18,7 +18,7 @@ class AdministratorController {
       const candidate = await db.query(
         `SELECT * FROM Administrator WHERE login = '${login}'`
       );
-      if (candidate.rowCount) {
+      if (candidate.rowCount.length) {
         return res
           .status(400)
           .json({ message: "Пользователь с таким логином существует" });
