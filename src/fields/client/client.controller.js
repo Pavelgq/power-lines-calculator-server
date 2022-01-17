@@ -14,7 +14,7 @@ class ClientController {
       } = req.body;
 
       const result = await db.query(
-        `INSERT INTO client (first_name, last_name, company, office_position, phone_number, email) VALUES ('${first_name}','${last_name}','${company}','${office_position}','${phone_number}','${email} RETURNING *');`
+        `INSERT INTO client (first_name, last_name, company, office_position, phone_number, email) VALUES ('${first_name}','${last_name}','${company}','${office_position}','${phone_number}','${email}') RETURNING *;`
       );
 
       res.json({
