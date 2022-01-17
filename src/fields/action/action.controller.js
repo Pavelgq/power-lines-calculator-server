@@ -48,15 +48,13 @@ class ActionControllers {
       const offset = page * limit;
       if (clientId !== -1) {
         actions = await db.query(
-          `SELECT *, COUNT (*) FROM action WHERE client_id = ${clientId}  LIMIT ${
+          `SELECT * FROM action WHERE client_id = ${clientId}  LIMIT ${
             limit || "ALL"
           } OFFSET ${offset} ;`
         );
       } else {
         actions = await db.query(
-          `SELECT *, COUNT (*) FROM action LIMIT ${
-            limit || "ALL"
-          } OFFSET ${offset} ;`
+          `SELECT * FROM action LIMIT ${limit || "ALL"} OFFSET ${offset} ;`
         );
       }
 
