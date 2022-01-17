@@ -145,6 +145,16 @@
 
 ```json
 {
+  "data": {
+    "first_name": "",
+    "last_name": "",
+    "company": "",
+    "office_position": "",
+    "phone_number": "",
+    "email": "",
+    "client_key": "",
+    "valid_untill: "",
+  },
   "message": "Пользователь успешно cоздан"
 }
 ```

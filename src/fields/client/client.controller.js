@@ -13,10 +13,14 @@ class ClientController {
         email,
       } = req.body;
 
-      await db.query(
-        `INSERT INTO client (first_name, last_name, company, office_position, phone_number, email) VALUES ('${first_name}','${last_name}','${company}','${office_position}','${phone_number}','${email}');`
+      const result = await db.query(
+        `INSERT INTO client (first_name, last_name, company, office_position, phone_number, email) VALUES ('${first_name}','${last_name}','${company}','${office_position}','${phone_number}','${email} RETURNING *');`
       );
-      res.json({ message: "Пользователь успешно создан" });
+
+      res.json({
+        data: result.rows[0],
+        message: "Пользователь успешно создан",
+      });
     } catch (error) {
       logger.error("client create:", error);
       return res.status(400).json({ error });

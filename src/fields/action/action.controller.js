@@ -10,14 +10,13 @@ class ActionControllers {
     try {
       const { client_id, type, data, project_name } = req.body;
       const { accept_key } = req;
-      console.log(client_id, type, data, project_name);
       let dataPath = "";
       if (data) {
         dataPath = `${client_id}-${Date.now()}.json`;
 
         console.log(dataPath);
         await fs.writeFile(
-          dataPath,
+          path.join(__dirname, `../../../data/calc-data/${dataPath}`),
           JSON.stringify(data),
           function (err, result) {
             if (err) console.log("error", err);
