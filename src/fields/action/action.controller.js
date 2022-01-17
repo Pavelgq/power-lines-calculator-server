@@ -42,20 +42,23 @@ class ActionControllers {
       const clientId = req.query.client_id || -1;
       let actions = {};
 
+      const page = req.query.page || 1;
+      const limit = req.query.limit;
+      const offset = page * limit;
       if (clientId !== -1) {
         actions = await db.query(
-          `SELECT * FROM action WHERE client_id = ${clientId};`
+          `SELECT * FROM action WHERE client_id = ${clientId}  LIMIT ${
+            limit || "ALL"
+          } OFFSET ${offset} ;`
         );
       } else {
-        actions = await db.query(`SELECT * FROM action;`);
+        actions = await db.query(
+          `SELECT * FROM action LIMIT ${limit || "ALL"} OFFSET ${offset} ;`
+        );
       }
       const data = actions.rows;
-      const page = req.query.page || 1;
-      const limit = req.query.limit || data.length;
-      const startIndex = page * limit;
-      const endIndex = page * limit + limit;
       const length = data.length;
-      const result = { data: data.slice(startIndex, endIndex) };
+      const result = { data };
       result.total_items = length;
       res.status(200).json(result);
     } catch (error) {
