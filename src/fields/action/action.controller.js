@@ -61,7 +61,7 @@ class ActionControllers {
       const data = actions.rows;
       const length = await db.query("SELECT count(*) FROM action;");
       const result = { data };
-      result.total_items = length;
+      result.total_items = length.rows.count;
       res.status(200).json(result);
     } catch (error) {
       logger.error("action get all: ", error);
