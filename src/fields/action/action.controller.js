@@ -24,11 +24,14 @@ class ActionControllers {
           }
         );
       }
-      await db.query(
-        `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}');`
+      const result = await db.query(
+        `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}') RETURNING *;`
       );
 
-      return res.json({ message: "Действие пользователя сохранено" });
+      return res.json({
+        data: result.rows[0],
+        message: "Действие пользователя сохранено",
+      });
     } catch (error) {
       logger.error("action add: ", error);
       return res.status(400).json({ error });

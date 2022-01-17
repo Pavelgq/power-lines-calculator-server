@@ -341,6 +341,15 @@
 
 ```json
 {
+  "data": {
+    "id": "",
+    "client_id": "",
+    "type": "",
+    "date": "",
+    "path_of_data": "",
+    "accept_key": "",
+    "project_name": ""
+  }
   "message": "Действие пользователя сохранено"
 }
 ```
@@ -358,6 +367,7 @@
 ```json
 [
   {
+    "id": "",
     "client_id": "",
     "type": "",
     "date": "",
@@ -366,6 +376,7 @@
     "project_name": ""
   },
   {
+    "id": "",
     "client_id": "",
     "type": "",
     "date": "",
@@ -386,6 +397,7 @@
 
 ```json
 {
+  "id": "",
   "client_id": "",
   "type": "calculation | save | load",
   "data": {},
