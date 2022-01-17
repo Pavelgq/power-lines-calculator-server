@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const logger = require("../../utils/logger");
 const db = require("../../server/db");
 const { generateKey, checkKey } = require("../../utils/accept-utils");
+const { query } = require("../../utils/logger");
 
 class ActionControllers {
   async createNewAction(req, res) {
@@ -47,17 +48,20 @@ class ActionControllers {
       const offset = page * limit;
       if (clientId !== -1) {
         actions = await db.query(
-          `SELECT * FROM action WHERE client_id = ${clientId}  LIMIT ${
+          `SELECT *, COUNT (*) FROM action WHERE client_id = ${clientId}  LIMIT ${
             limit || "ALL"
           } OFFSET ${offset} ;`
         );
       } else {
         actions = await db.query(
-          `SELECT * FROM action LIMIT ${limit || "ALL"} OFFSET ${offset} ;`
+          `SELECT *, COUNT (*) FROM action LIMIT ${
+            limit || "ALL"
+          } OFFSET ${offset} ;`
         );
       }
+
       const data = actions.rows;
-      const length = data.length;
+      const length = await db.query("SELECT count(*) FROM action;");
       const result = { data };
       result.total_items = length;
       res.status(200).json(result);
