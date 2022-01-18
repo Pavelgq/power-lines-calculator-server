@@ -93,6 +93,7 @@ class ActionControllers {
 
   async getSaveFile(req, res, next) {
     try {
+      console.log("file");
       let options = {
         root: path.join(__dirname, "../../../data/calc-data"),
         dotfiles: "deny",

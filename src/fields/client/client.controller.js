@@ -77,6 +77,12 @@ class ClientController {
   async deleteUser(req, res) {
     try {
       const clientId = req.params.id;
+      const clientKey = await db.query(
+        `SELECT * FROM accept WHERE client_id = '${clientId}'`
+      );
+      if (clientKey.rowCount) {
+        await db.query(`DELETE FROM accept WHERE client_id = '${clientId}'`);
+      }
       const clientData = await db.query(
         `SELECT * FROM client WHERE id = '${clientId}'`
       );
