@@ -9,13 +9,13 @@ const { query } = require("../../utils/logger");
 class ActionControllers {
   async createNewAction(req, res) {
     try {
-      const { client_id, type, data, project_name } = req.body;
+      const { client_id, type, data, project_name, program_type, params } =
+        req.body;
       const { accept_key } = req;
       let dataPath = "";
       if (data) {
         dataPath = `${client_id}-${Date.now()}.json`;
 
-        console.log(dataPath);
         await fs.writeFile(
           path.join(__dirname, `../../../data/calc-data/${dataPath}`),
           JSON.stringify(data),
@@ -25,7 +25,7 @@ class ActionControllers {
         );
       }
       const result = await db.query(
-        `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}') RETURNING *;`
+        `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name, program_type, params) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}', '${program_type}', '${params}') RETURNING *;`
       );
 
       return res.json({
@@ -48,7 +48,7 @@ class ActionControllers {
       const offset = page * limit;
       if (clientId !== -1) {
         actions = await db.query(
-          `SELECT * FROM action WHERE client_id = ${clientId}  LIMIT ${
+          `SELECT * FROM action WHERE client_id = ${clientId} LIMIT ${
             limit || "ALL"
           } OFFSET ${offset} ;`
         );
