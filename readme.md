@@ -358,7 +358,9 @@
     "date": "",
     "path_of_data": "",
     "accept_key": "",
-    "project_name": ""
+    "project_name": "",
+    "program_type": "",
+    "params": ""
   }
   "message": "Действие пользователя сохранено"
 }
@@ -383,7 +385,9 @@
     "date": "",
     "path_of_data": "",
     "accept_key": "",
-    "project_name": ""
+    "project_name": "",
+    "program_type": "",
+    "params": ""
   },
   {
     "id": "",
@@ -392,7 +396,9 @@
     "date": "",
     "path_of_data": "",
     "accept_key": "",
-    "project_name": ""
+    "project_name": "",
+    "program_type": "",
+    "params": ""
   }
 ]
 ```
@@ -412,7 +418,9 @@
   "type": "calculation | save | load",
   "data": {},
   "accept_key": "",
-  "project_name": ""
+  "project_name": "",
+  "program_type": "",
+  "params": ""
 }
 ```
 
