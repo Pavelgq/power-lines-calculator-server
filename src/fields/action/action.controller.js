@@ -68,7 +68,7 @@ class ActionControllers {
       const data = actions.rows;
 
       const result = { data };
-      result.total_items = length.rows[0].count;
+      result.total_items = maxCount.rows[0].count;
       res.status(200).json(result);
     } catch (error) {
       logger.error("action get all: ", error);
