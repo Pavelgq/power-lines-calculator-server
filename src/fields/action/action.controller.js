@@ -48,20 +48,24 @@ class ActionControllers {
       const page = req.query.page || 1;
       const limit = req.query.limit;
       const offset = page * limit;
+      let maxCount;
       if (clientId !== -1) {
         actions = await db.query(
           `SELECT * FROM action WHERE client_id = ${clientId} LIMIT ${
             limit || "ALL"
           } OFFSET ${offset} ;`
         );
+        maxCount = await db.query(
+          `SELECT count(*) FROM action WHERE client_id = ${clientId};`
+        );
       } else {
         actions = await db.query(
           `SELECT * FROM action LIMIT ${limit || "ALL"} OFFSET ${offset} ;`
         );
+        maxCount = await db.query("SELECT count(*) FROM action;");
       }
 
       const data = actions.rows;
-      const length = await db.query("SELECT count(*) FROM action;");
 
       const result = { data };
       result.total_items = length.rows[0].count;
