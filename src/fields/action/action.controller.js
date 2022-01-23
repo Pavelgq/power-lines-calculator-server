@@ -25,7 +25,9 @@ class ActionControllers {
         );
       }
       const result = await db.query(
-        `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name, program_type, params) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}', '${program_type}', '${params}') RETURNING *;`
+        `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name, program_type, params) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}', '${program_type}', '${JSON.stringify(
+          params
+        )}') RETURNING *;`
       );
 
       return res.json({
