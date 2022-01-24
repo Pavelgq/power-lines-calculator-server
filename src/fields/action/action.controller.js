@@ -43,27 +43,46 @@ class ActionControllers {
   async getAllActions(req, res) {
     try {
       const clientId = req.query.client_id || -1;
+      const programType = req.query.program_type || -1;
       let actions = {};
 
       const page = req.query.page || 1;
       const limit = req.query.limit;
       const offset = page * limit;
       let maxCount;
-      if (clientId !== -1) {
-        actions = await db.query(
-          `SELECT * FROM action WHERE client_id = ${clientId} LIMIT ${
-            limit || "ALL"
-          } OFFSET ${offset} ;`
-        );
-        maxCount = await db.query(
-          `SELECT count(*) FROM action WHERE client_id = ${clientId};`
-        );
-      } else {
-        actions = await db.query(
-          `SELECT * FROM action LIMIT ${limit || "ALL"} OFFSET ${offset} ;`
-        );
-        maxCount = await db.query("SELECT count(*) FROM action;");
-      }
+
+      const setClientId = (id) => {
+        if (id !== -1) {
+          return `client_id = ${id}`;
+        } else {
+          return "";
+        }
+      };
+
+      const programTypeFilter = (type) => {
+        if (type !== -1) {
+          return `program_type = ${type}`;
+        } else {
+          return "";
+        }
+      };
+      const whereString =
+        setClientId(clientId) || programTypeFilter(programType) ? "WHERE" : "";
+      const andString =
+        setClientId(clientId) && programTypeFilter(programType) ? "AND" : "";
+
+      const actionQuery = `SELECT * FROM action ${whereString} ${setClientId(
+        clientId
+      )} ${andString} ${programTypeFilter(programType)} LIMIT ${
+        limit || "ALL"
+      } OFFSET ${offset};`;
+
+      actions = await db.query(actionQuery);
+      maxCount = await db.query(
+        `SELECT count(*) FROM action ${whereString} ${setClientId(
+          clientId
+        )} ${andString} ${programTypeFilter(programType)};`
+      );
 
       const data = actions.rows;
 
