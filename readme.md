@@ -179,7 +179,8 @@
     "phone_number": "",
     "email": "",
     "client_key": "",
-    "valid_untill: "",
+    "valid_untill": "",
+    "origin": ""
   },
   ...
 ]
@@ -189,7 +190,7 @@
 
 #### Request
 
-`GET /api/v1/user/:id`
+`GET /api/v1/client/:id`
 
 #### Response
 
@@ -208,7 +209,7 @@
 
 #### Request
 
-`PUT /api/v1/user/:id`
+`PUT /api/v1/client/:id`
 
 ```json
 {

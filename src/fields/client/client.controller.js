@@ -29,7 +29,7 @@ class ClientController {
   async getUsers(req, res) {
     try {
       const allUsers = await db.query(
-        `SELECT client.*, accept.client_key, accept.valid_until FROM client LEFT JOIN accept ON accept.client_id = client.id;`
+        `SELECT client.*, accept.client_key, accept.valid_until, ROW_NUMBER () OVER (ORDER BY client.creation_date) as ordinal FROM client LEFT JOIN accept ON accept.client_id = client.id;`
       );
       return res.json(allUsers.rows);
     } catch (error) {
