@@ -1,5 +1,7 @@
 const logger = require("../../utils/logger");
 const db = require("../../server/db");
+const { checkAccept } = require("../../utils/other");
+const { all } = require("express/lib/application");
 
 class ClientController {
   async createUser(req, res) {
@@ -31,7 +33,17 @@ class ClientController {
       const allUsers = await db.query(
         `SELECT client.*, accept.client_key, accept.valid_until, ROW_NUMBER () OVER (ORDER BY client.creation_date) as ordinal FROM client LEFT JOIN accept ON accept.client_id = client.id;`
       );
-      return res.json(allUsers.rows);
+      console.log(allUsers);
+      const result = allUsers.rows.map((u) => {
+        if (checkAccept(u.valid_until)) {
+          u.isAccept = true;
+        } else {
+          u.isAccept = false;
+        }
+
+        return u;
+      });
+      return res.json(result);
     } catch (error) {
       logger.error("client get all:", error);
       return res.status(400).json({ error });

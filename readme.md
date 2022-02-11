@@ -180,7 +180,8 @@
     "email": "",
     "client_key": "",
     "valid_untill": "",
-    "origin": ""
+    "origin": "",
+    "isAccept": "",
   },
   ...
 ]
