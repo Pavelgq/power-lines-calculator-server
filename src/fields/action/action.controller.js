@@ -6,6 +6,18 @@ const db = require("../../server/db");
 const { generateKey, checkKey } = require("../../utils/accept-utils");
 const { query } = require("../../utils/logger");
 
+const fields = {
+  id: "number",
+  client_id: "number",
+  project_name: "string",
+  type: "string",
+  date: "string",
+  path_to_data: "string",
+  accept_key: "string",
+  program_type: "string",
+  params: "string",
+};
+
 class ActionControllers {
   async createNewAction(req, res) {
     try {
@@ -42,6 +54,8 @@ class ActionControllers {
 
   async getAllActions(req, res) {
     try {
+      const filters = req.query.filter || {};
+      console.log(filters);
       const clientId = req.query.client_id || -1;
       const programType = req.query.program_type || -1;
       let actions = {};
@@ -51,37 +65,26 @@ class ActionControllers {
       const offset = page * limit;
       let maxCount;
 
-      const setClientId = (id) => {
-        if (id !== -1) {
-          return `client_id = ${id}`;
-        } else {
-          return "";
-        }
-      };
+      const whereString = Object.keys(filters).length > 0 ? "WHERE" : "";
+      const andString = Object.keys(filters).length > 1 ? "AND" : "";
 
-      const programTypeFilter = (type) => {
-        if (type !== -1) {
-          return `program_type = ${type}`;
-        } else {
-          return "";
-        }
-      };
-      const whereString =
-        setClientId(clientId) || programTypeFilter(programType) ? "WHERE" : "";
-      const andString =
-        setClientId(clientId) && programTypeFilter(programType) ? "AND" : "";
+      const conditionsFilter = Object.keys(filters)
+        .map((f) => {
+          if (fields[f] && fields[f] === "number") {
+            return `${f} = '${filters[f]}'`;
+          } else {
+            return `${f} LIKE '%${filters[f]}%'`;
+          }
+        })
+        .join(` ${andString} `);
 
-      const actionQuery = `SELECT * FROM action ${whereString} ${setClientId(
-        clientId
-      )} ${andString} ${programTypeFilter(programType)} LIMIT ${
+      const actionQuery = `SELECT * FROM action ${whereString} ${conditionsFilter} ORDER BY date DESC LIMIT ${
         limit || "ALL"
       } OFFSET ${offset};`;
-
+      console.log(actionQuery);
       actions = await db.query(actionQuery);
       maxCount = await db.query(
-        `SELECT count(*) FROM action ${whereString} ${setClientId(
-          clientId
-        )} ${andString} ${programTypeFilter(programType)};`
+        `SELECT count(*) FROM action ${whereString} ${conditionsFilter};`
       );
 
       const data = actions.rows;

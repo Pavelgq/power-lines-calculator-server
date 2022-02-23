@@ -49,6 +49,7 @@ class ClientController {
       return res.status(400).json({ error });
     }
   }
+
   async getOneUser(req, res) {
     try {
       const clientId = req.params.id;

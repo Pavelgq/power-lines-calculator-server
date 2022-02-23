@@ -374,7 +374,17 @@
 
 #### Request
 
-`GET /api/v1/action/all?page=1&limit=5`
+`GET /api/v1/action/all?page=1&limit=5&filter[..]=..`
+
+```js
+filter = {
+  client_id?: ...,
+  programmType?: ...,
+  date?: ...,
+  programmName?: ...,
+  clientName?: ...,
+}
+```
 
 #### Response
 
