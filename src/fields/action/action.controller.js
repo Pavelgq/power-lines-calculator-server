@@ -55,9 +55,13 @@ class ActionControllers {
   async getAllActions(req, res) {
     try {
       const filters = req.query.filter || {};
-      console.log(filters);
-      const clientId = req.query.client_id || -1;
-      const programType = req.query.program_type || -1;
+      const sorting = req.query.sort || { date: "DESC" };
+      const searchValue = req.query.search || "";
+
+      const clientId = filters.client_id || -1;
+      delete filters.client_id;
+      const programType = filters.program_type || -1;
+      delete filters.program_type;
       let actions = {};
 
       const page = req.query.page || 1;
@@ -65,8 +69,23 @@ class ActionControllers {
       const offset = page * limit;
       let maxCount;
 
-      const whereString = Object.keys(filters).length > 0 ? "WHERE" : "";
-      const andString = Object.keys(filters).length > 1 ? "AND" : "";
+      const whereString =
+        clientId !== -1 || programType != -1 || Object.keys(filters).length
+          ? "WHERE"
+          : "";
+      const andString = "AND";
+      const orString = "OR";
+
+      const mainFilters = [];
+      if (clientId !== -1) {
+        mainFilters.push(`client_id='${clientId}'`);
+      }
+      if (programType !== -1) {
+        mainFilters.push(`program_type='${programType}'`);
+      }
+      const mainFiltersString = `${mainFilters.join(` ${andString} `)} ${
+        Object.keys(filters).length > 0 ? andString : ""
+      }`;
 
       const conditionsFilter = Object.keys(filters)
         .map((f) => {
@@ -76,15 +95,17 @@ class ActionControllers {
             return `${f} LIKE '%${filters[f]}%'`;
           }
         })
-        .join(` ${andString} `);
+        .join(` ${orString} `);
 
-      const actionQuery = `SELECT * FROM action ${whereString} ${conditionsFilter} ORDER BY date DESC LIMIT ${
-        limit || "ALL"
-      } OFFSET ${offset};`;
+      const sortField = Object.keys(sorting)[0];
+
+      const actionQuery = `SELECT * FROM action ${whereString} ${mainFiltersString} ${conditionsFilter} ORDER BY ${sortField} ${
+        sorting[sortField]
+      } LIMIT ${limit || "ALL"} OFFSET ${offset};`;
       console.log(actionQuery);
       actions = await db.query(actionQuery);
       maxCount = await db.query(
-        `SELECT count(*) FROM action ${whereString} ${conditionsFilter};`
+        `SELECT count(*) FROM action ${whereString} ${mainFiltersString} ${conditionsFilter};`
       );
 
       const data = actions.rows;
