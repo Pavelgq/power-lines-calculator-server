@@ -66,24 +66,16 @@ class ActionControllers {
           queryPeriod = `date <= now()`;
           break;
         case "year":
-          queryPeriod = `date <= ${moment().format()} AND date > ${moment()
-            .subtract(1, "year")
-            .format()}`;
+          queryPeriod = `date <= now() AND date > now()-interval '1 year'`;
           break;
         case "month":
-          queryPeriod = `date <= ${moment().format()} AND date > ${moment()
-            .subtract(1, "month")
-            .format()}`;
+          queryPeriod = `date <= now() AND date > now()-interval '1 month'`;
           break;
         case "week":
-          queryPeriod = `date <= ${moment().format()} AND date > ${moment()
-            .subtract(1, "week")
-            .format()}`;
+          queryPeriod = `date <= now() AND date > now()-interval '1 week'`;
           break;
         case "day":
-          queryPeriod = `date >= ${moment().format()} AND date < ${moment()
-            .subtract(1, "day")
-            .format()}`;
+          queryPeriod = `date <= now() AND date > now()-interval '1 day'`;
           break;
 
         default:
@@ -94,7 +86,7 @@ class ActionControllers {
 
       const clientId = filters.client_id || -1;
       delete filters.client_id;
-      const programType = filters.program_type || -1;
+      const programType = filters.programType != 0 ? filters.program_type : -1;
       delete filters.program_type;
       let actions = {};
 
@@ -131,7 +123,7 @@ class ActionControllers {
         .join(` ${orString} `);
 
       const newMainFilter = mainFiltersString
-        ? `${queryPeriod} AND ${mainFiltersString}`
+        ? `(${queryPeriod}) AND ${mainFiltersString}`
         : queryPeriod;
 
       const sortField = Object.keys(sorting)[0];
