@@ -86,7 +86,7 @@ class ActionControllers {
 
       const clientId = filters.client_id || -1;
       delete filters.client_id;
-      const programType = filters.programType != 0 ? filters.program_type : -1;
+      const programType = filters.program_type != 0 ? filters.program_type : -1;
       delete filters.program_type;
       let actions = {};
 
