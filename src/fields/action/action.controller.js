@@ -5,13 +5,14 @@ const logger = require("../../utils/logger");
 const db = require("../../server/db");
 const { generateKey, checkKey } = require("../../utils/accept-utils");
 const { query } = require("../../utils/logger");
+var moment = require("moment");
 
 const fields = {
   id: "number",
   client_id: "number",
   project_name: "string",
   type: "string",
-  date: "string",
+  date: "number",
   path_to_data: "string",
   accept_key: "string",
   program_type: "string",
@@ -56,7 +57,40 @@ class ActionControllers {
     try {
       const filters = req.query.filter || {};
       const sorting = req.query.sort || { date: "DESC" };
-      const searchValue = req.query.search || "";
+      // const searchValue = req.query.search || "";
+      const timeFilter = req.query.period;
+
+      let queryPeriod;
+      switch (timeFilter) {
+        case "all":
+          queryPeriod = `date <= now()`;
+          break;
+        case "year":
+          queryPeriod = `date <= ${moment().format()} AND date > ${moment()
+            .subtract(1, "year")
+            .format()}`;
+          break;
+        case "month":
+          queryPeriod = `date <= ${moment().format()} AND date > ${moment()
+            .subtract(1, "month")
+            .format()}`;
+          break;
+        case "week":
+          queryPeriod = `date <= ${moment().format()} AND date > ${moment()
+            .subtract(1, "week")
+            .format()}`;
+          break;
+        case "day":
+          queryPeriod = `date >= ${moment().format()} AND date < ${moment()
+            .subtract(1, "day")
+            .format()}`;
+          break;
+
+        default:
+          break;
+      }
+
+      console.log(queryPeriod);
 
       const clientId = filters.client_id || -1;
       delete filters.client_id;
@@ -69,10 +103,7 @@ class ActionControllers {
       const offset = page * limit;
       let maxCount;
 
-      const whereString =
-        clientId !== -1 || programType != -1 || Object.keys(filters).length
-          ? "WHERE"
-          : "";
+      const whereString = "WHERE";
       const andString = "AND";
       const orString = "OR";
 
@@ -84,7 +115,9 @@ class ActionControllers {
         mainFilters.push(`program_type='${programType}'`);
       }
       const mainFiltersString = `${mainFilters.join(` ${andString} `)} ${
-        Object.keys(filters).length > 0 ? andString : ""
+        mainFilters.length > 0 && Object.keys(filters).length > 0
+          ? andString
+          : ""
       }`;
 
       const conditionsFilter = Object.keys(filters)
@@ -97,17 +130,20 @@ class ActionControllers {
         })
         .join(` ${orString} `);
 
+      const newMainFilter = mainFiltersString
+        ? `${queryPeriod} AND ${mainFiltersString}`
+        : queryPeriod;
+
       const sortField = Object.keys(sorting)[0];
 
-      const actionQuery = `SELECT * FROM action ${whereString} ${mainFiltersString} ${conditionsFilter} ORDER BY ${sortField} ${
+      const actionQuery = `SELECT * FROM action ${whereString} ${newMainFilter} (${conditionsFilter}) ORDER BY ${sortField} ${
         sorting[sortField]
       } LIMIT ${limit || "ALL"} OFFSET ${offset};`;
       console.log(actionQuery);
       actions = await db.query(actionQuery);
       maxCount = await db.query(
-        `SELECT count(*) FROM action ${whereString} ${mainFiltersString} ${conditionsFilter};`
+        `SELECT count(*) FROM action ${whereString} ${newMainFilter} (${conditionsFilter});`
       );
-
       const data = actions.rows;
 
       const result = { data };
