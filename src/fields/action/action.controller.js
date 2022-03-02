@@ -68,6 +68,9 @@ class ActionControllers {
         case "year":
           queryPeriod = `date <= now() AND date > now()-interval '1 year'`;
           break;
+        case "quarter":
+          queryPeriod = `date <= now() AND date > now()-interval '3 month'`;
+          break;
         case "month":
           queryPeriod = `date <= now() AND date > now()-interval '1 month'`;
           break;

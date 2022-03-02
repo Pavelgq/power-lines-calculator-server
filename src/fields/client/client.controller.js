@@ -31,7 +31,7 @@ class ClientController {
   async getUsers(req, res) {
     try {
       const allUsers = await db.query(
-        `SELECT client.*, accept.client_key, accept.valid_until, ROW_NUMBER () OVER (ORDER BY client.creation_date) as ordinal FROM client LEFT JOIN accept ON accept.client_id = client.id;`
+        `SELECT client.*, accept.client_key, accept.update, accept.valid_until, ROW_NUMBER () OVER (ORDER BY client.creation_date) as ordinal FROM client LEFT JOIN accept ON accept.client_id = client.id;`
       );
       console.log(allUsers);
       const result = allUsers.rows.map((u) => {
@@ -54,7 +54,7 @@ class ClientController {
     try {
       const clientId = req.params.id;
       const client = await db.query(
-        `SELECT client.*, accept.client_key, accept.valid_until FROM client LEFT JOIN accept ON accept.client_id = client.id WHERE id = '${clientId}'`
+        `SELECT client.*, accept.client_key, accept.update, accept.valid_until FROM client LEFT JOIN accept ON accept.client_id = client.id WHERE id = '${clientId}'`
       );
       if (!client.rowCount) {
         return res.status(400).json({ message: "Пользователь не найден" });
