@@ -17,7 +17,7 @@ class AcceptController {
         return res.json({ message: "Ключ не действителен" });
       }
       const token = jwt.sign(key, jwtsecret);
-      return res.json({ acceptToken: token });
+      return res.json({ acceptToken: token, id: keys.rows[0].client_id });
     } catch (error) {
       logger.error("accept check: ", error);
       return res.status(400).json({ error });
