@@ -22,9 +22,8 @@ const fields = {
 class ActionControllers {
   async createNewAction(req, res) {
     try {
-      const { client_id, type, data, project_name, program_type, params } =
-        req.body;
-      const { accept_key } = req;
+      const { type, data, project_name, program_type, params } = req.body;
+      const { accept_key, client_id } = req;
       let dataPath = "";
       if (data) {
         dataPath = `${client_id}-${Date.now()}.json`;

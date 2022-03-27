@@ -257,7 +257,8 @@
 
 ```json
 {
-  "acceptToken": "..."
+  "acceptToken": "...",
+  "id": "..."
 }
 ```
 

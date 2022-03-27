@@ -16,7 +16,11 @@ class AcceptController {
       if (!keys.rowCount) {
         return res.json({ message: "Ключ не действителен" });
       }
-      const token = jwt.sign(key, jwtsecret);
+      const payload = {
+        key,
+        clientId: keys.rows[0].client_id,
+      };
+      const token = jwt.sign(payload, jwtsecret);
       return res.json({ acceptToken: token, id: keys.rows[0].client_id });
     } catch (error) {
       logger.error("accept check: ", error);

@@ -28,14 +28,15 @@ function checkClientKey(req, res, next) {
   jwt.verify(
     clientTokenHeader,
     process.env.JWT_CLIENT_SECRET,
-    (err, accept_key) => {
+    (err, payload) => {
       if (err) {
         logger.error(err);
         return res.sendStatus(403);
       }
-      console.log("check accept:", accept_key);
-      req.accept_key = accept_key;
-
+      let { key, clientId } = payload;
+      console.log("check accept: ", key, "client id: ", clientId);
+      req.acceptKey = key;
+      req.clientId = clientId;
       next();
     }
   );
