@@ -22,6 +22,7 @@ const fields = {
 class ActionControllers {
   async createNewAction(req, res) {
     try {
+      console.log(req.body);
       const { type, data, project_name, program_type, params } = req.body;
       const { accept_key, client_id } = req;
       let dataPath = "";
@@ -36,11 +37,13 @@ class ActionControllers {
           }
         );
       }
-      const result = await db.query(
-        `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name, program_type, params) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}', '${program_type}', '${JSON.stringify(
-          params
-        )}') RETURNING *;`
-      );
+      const queryString = `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name, program_type, params) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}', '${program_type}', '${JSON.stringify(
+        params
+      )}') RETURNING *;`;
+
+      console.log(queryString);
+
+      const result = await db.query(queryString);
 
       return res.json({
         data: result.rows[0],

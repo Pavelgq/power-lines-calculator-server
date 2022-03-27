@@ -20,6 +20,7 @@ function authenticateToken(req, res, next) {
 }
 
 function checkClientKey(req, res, next) {
+  console.log(req.body);
   const clientTokenHeader = req.headers["accept-token"];
   if (!clientTokenHeader) {
     return res.sendStatus(401);
@@ -35,8 +36,8 @@ function checkClientKey(req, res, next) {
       }
       let { key, clientId } = payload;
       console.log("check accept: ", key, "client id: ", clientId);
-      req.acceptKey = key;
-      req.clientId = clientId;
+      req.accept_key = key;
+      req.client_id = clientId;
       next();
     }
   );
