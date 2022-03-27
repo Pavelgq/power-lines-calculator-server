@@ -24,7 +24,7 @@ actionRouter.use((req, res, next) => {
 actionRouter.post("/add", checkClientKey, controller.createNewAction);
 actionRouter.get("/all", authenticateToken, controller.getAllActions);
 actionRouter.get("/client/:id", checkClientKey, controller.getClientActions);
-acceptRouter.get("/file/:name", controller.getSaveFile);
+actionRouter.get("/file/:name", controller.getSaveFile);
 actionRouter.post("/auth", checkClientKey, controller.authorizeAction);
 
 module.exports = actionRouter;

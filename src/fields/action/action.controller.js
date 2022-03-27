@@ -184,6 +184,7 @@ class ActionControllers {
           "x-sent": true,
         },
       };
+      console.log(options);
       let fileName = req.params.name;
       res.sendFile(fileName, options, function (err) {
         if (err) {
