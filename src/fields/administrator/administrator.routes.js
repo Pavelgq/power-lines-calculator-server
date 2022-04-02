@@ -9,6 +9,7 @@ const administratorRouter = new Router();
 const controller = new AdministratorController();
 
 administratorRouter.use((req, res, next) => {
+  console.log("nen");
   res.header(`Access-Control-Allow-Origin`, `*`);
   res.header(
     `Access-Control-Allow-Headers`,

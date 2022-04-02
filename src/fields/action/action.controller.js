@@ -7,6 +7,8 @@ const { generateKey, checkKey } = require("../../utils/accept-utils");
 const { query } = require("../../utils/logger");
 var moment = require("moment");
 
+const { groupByPeriod } = require("../../utils/filters");
+
 const fields = {
   id: "number",
   client_id: "number",
@@ -19,10 +21,10 @@ const fields = {
   params: "string",
 };
 
+const period = 1 * 60 * 60 * 1000;
 class ActionControllers {
   async createNewAction(req, res) {
     try {
-      console.log(req.body);
       const { type, data, project_name, program_type, params } = req.body;
       const { accept_key, client_id } = req;
       let dataPath = "";
@@ -37,9 +39,24 @@ class ActionControllers {
           }
         );
       }
-      const queryString = `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name, program_type, params) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}', '${program_type}', '${JSON.stringify(
+      const lastActionQuery = `SELECT * FROM action WHERE client_id=${client_id}  ORDER BY date DESC LIMIT 1`;
+      const lastActionResult = await db.query(lastActionQuery);
+      let lastActionId = 0;
+      if (lastActionResult.rowCount) {
+        console.log(moment().diff(lastActionResult.rows[0].date));
+        if (moment().diff(lastActionResult.rows[0].date) < period) {
+          console.log("yes");
+          if (lastActionResult.rows[0].group_id) {
+            lastActionId = lastActionResult.rows[0].group_id;
+          } else {
+            lastActionId = lastActionResult.rows[0].id;
+          }
+        }
+      }
+
+      const queryString = `INSERT INTO action (client_id, type, path_to_data, accept_key, project_name, program_type, params, group_id) VALUES ('${client_id}', '${type}', '${dataPath}', '${accept_key}', '${project_name}', '${program_type}', '${JSON.stringify(
         params
-      )}') RETURNING *;`;
+      )}', '${lastActionId}') RETURNING *;`;
 
       console.log(queryString);
 
@@ -111,6 +128,8 @@ class ActionControllers {
       if (programType !== -1) {
         mainFilters.push(`program_type='${programType}'`);
       }
+      mainFilters.push(`group_id=0`);
+
       const mainFiltersString = `${mainFilters.join(` ${andString} `)} ${
         mainFilters.length > 0 && Object.keys(filters).length > 0
           ? andString
@@ -142,6 +161,17 @@ class ActionControllers {
         `SELECT count(*) FROM action ${whereString} ${newMainFilter} (${conditionsFilter});`
       );
       const data = actions.rows;
+
+      for (let i = 0; i < data.length; i++) {
+        const groupQuery = `SELECT * FROM action WHERE group_id=${data[i].id}`;
+        const groupData = await db.query(groupQuery);
+        data[i].group = groupData.rows;
+      }
+      // data.forEach(async (action) => {
+      //   const groupQuery = `SELECT * FROM action WHERE group_id=${action.id}`;
+      //   const groupData = await db.query(groupQuery);
+      //   action.group = groupData.rows;
+      // });
 
       const result = { data };
       result.total_items = maxCount.rows[0].count;
