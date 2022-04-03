@@ -158,8 +158,10 @@ class AdministratorController {
       };
       const token = jwt.sign(payload, jwtsecret);
 
+      console.log(changeData.rows[0]);
+
       return res.json({
-        ...changeData.rows[0],
+        ...payload,
         token,
         message: "Пользователь успешно изменен",
       });

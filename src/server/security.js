@@ -3,7 +3,6 @@ const logger = require("../utils/logger");
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["token"];
-  console.log(authHeader);
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null) return res.sendStatus(401);
@@ -20,7 +19,6 @@ function authenticateToken(req, res, next) {
 }
 
 function checkClientKey(req, res, next) {
-  console.log(req.body);
   const clientTokenHeader = req.headers["accept-token"];
   if (!clientTokenHeader) {
     return res.sendStatus(401);
