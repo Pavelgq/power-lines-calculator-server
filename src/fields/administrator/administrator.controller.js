@@ -151,8 +151,16 @@ class AdministratorController {
       const changeData = await db.query(
         `UPDATE administrator SET login = '${newLogin}', status = '${newStatus}', password = '${newPassword}' WHERE id = '${adminId}';`
       );
+      const payload = {
+        login: newLogin,
+        password: newPassword,
+        status: newStatus,
+      };
+      const token = jwt.sign(payload, jwtsecret);
+
       return res.json({
         ...changeData.rows[0],
+        token,
         message: "Пользователь успешно изменен",
       });
     } catch (error) {
