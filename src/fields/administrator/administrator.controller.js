@@ -90,7 +90,12 @@ class AdministratorController {
   async getSuccess(req, res) {
     try {
       const admin = req.user;
+      const adminData = await db.query(
+        `SELECT * FROM administrator WHERE login = '${admin.login}'`
+      );
+      const id = adminData && adminData.rows[0].id;
       return res.status(200).json({
+        id: id,
         login: admin.login,
         status: admin.status,
         message: "Доступ разрешен",
@@ -136,11 +141,15 @@ class AdministratorController {
           .status(400)
           .json({ message: "Пользователя с таким id не существует" });
       }
+
+      const hashPassword = bcrypt.hashSync(newData.password, 10);
+
       const newLogin = newData.login || candidate.rows[0].login;
       const newStatus = newData.status || candidate.rows[0].status;
+      const newPassword = hashPassword || candidate.rows[0].password;
 
       const changeData = await db.query(
-        `UPDATE administrator SET login = '${newLogin}', status = '${newStatus}' WHERE id = '${adminId}';`
+        `UPDATE administrator SET login = '${newLogin}', status = '${newStatus}', password = '${newPassword}' WHERE id = '${adminId}';`
       );
       return res.json({
         ...changeData.rows[0],
