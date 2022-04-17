@@ -28,6 +28,11 @@ administratorRouter.post(
 
 administratorRouter.post("/login", controller.loginAdministrator);
 administratorRouter.get("/profile", authenticateToken, controller.getSuccess);
+administratorRouter.get(
+  "/all",
+  authenticateToken,
+  controller.getAllAdministrators
+);
 administratorRouter.get("/:id", authenticateToken, controller.getAdministrator);
 administratorRouter.put(
   "/:id",

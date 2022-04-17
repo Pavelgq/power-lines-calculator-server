@@ -106,6 +106,19 @@ class AdministratorController {
     }
   }
 
+  async getAllAdministrators(req, res) {
+    try {
+      const candidates = await db.query(`SELECT * FROM administrator`);
+      if (!candidates.rowCount) {
+        return res.status(400).json({ message: "Ошибка" });
+      }
+      return res.json(candidates.rows);
+    } catch (error) {
+      logger.error("admins get: ", error);
+      return res.status(400).json({ error });
+    }
+  }
+
   async getAdministrator(req, res) {
     try {
       const adminId = req.params.id;
