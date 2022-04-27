@@ -163,7 +163,7 @@ class ActionControllers {
       const data = actions.rows;
 
       for (let i = 0; i < data.length; i++) {
-        const groupQuery = `SELECT * FROM action WHERE group_id=${data[i].id}`;
+        const groupQuery = `SELECT * FROM action WHERE group_id=${data[i].id} ORDER BY date`;
         const groupData = await db.query(groupQuery);
         data[i].group = groupData.rows;
       }

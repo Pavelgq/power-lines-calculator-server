@@ -782,3 +782,7 @@
 {"level":"error","message":"admins get:  candidate is not defined","stack":"ReferenceError: candidate is not defined\n    at getAllAdministrators (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/fields/administrator/administrator.controller.js:115:23)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
 {"level":"error","message":"admins get:  candidate is not defined","stack":"ReferenceError: candidate is not defined\n    at getAllAdministrators (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/fields/administrator/administrator.controller.js:115:23)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
 {"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
