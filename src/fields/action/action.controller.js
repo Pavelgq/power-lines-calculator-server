@@ -39,13 +39,12 @@ class ActionControllers {
           }
         );
       }
-      const lastActionQuery = `SELECT * FROM action WHERE client_id=${client_id}  ORDER BY date DESC LIMIT 1`;
+      const lastActionQuery = `SELECT * FROM action WHERE client_id=${client_id} and program_type=${program_type}  ORDER BY date DESC LIMIT 1`;
       const lastActionResult = await db.query(lastActionQuery);
       let lastActionId = 0;
       if (lastActionResult.rowCount) {
-        console.log(moment().diff(lastActionResult.rows[0].date));
-        if (moment().diff(lastActionResult.rows[0].date) < period) {
-          console.log("yes");
+        console.log(moment().isSame(lastActionResult.rows[0].date), "day");
+        if ((moment().isSame(lastActionResult.rows[0].date), "day")) {
           if (lastActionResult.rows[0].group_id) {
             lastActionId = lastActionResult.rows[0].group_id;
           } else {
@@ -167,11 +166,6 @@ class ActionControllers {
         const groupData = await db.query(groupQuery);
         data[i].group = groupData.rows;
       }
-      // data.forEach(async (action) => {
-      //   const groupQuery = `SELECT * FROM action WHERE group_id=${action.id}`;
-      //   const groupData = await db.query(groupQuery);
-      //   action.group = groupData.rows;
-      // });
 
       const result = { data };
       result.total_items = maxCount.rows[0].count;
