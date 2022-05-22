@@ -25,5 +25,12 @@ clientRouter.get("/all", authenticateToken, controller.getUsers);
 clientRouter.get("/:id", authenticateToken, controller.getOneUser);
 clientRouter.put("/:id", authenticateToken, controller.updateUser);
 clientRouter.delete("/:id", authenticateToken, controller.deleteUser);
+clientRouter.post("/request/add", controller.createRequest);
+clientRouter.put("/request/:id", authenticateToken, controller.acceptRequest);
+clientRouter.delete(
+  "/request/:id",
+  authenticateToken,
+  controller.rejectRequest
+);
 
 module.exports = clientRouter;

@@ -109,6 +109,63 @@ class ClientController {
       return res.status(400).json({ error });
     }
   }
+
+  async createRequest(req, res) {
+    try {
+      const {
+        first_name,
+        last_name,
+        company,
+        office_position,
+        phone_number,
+        email,
+      } = req.body;
+
+      const result = await db.query(
+        `INSERT INTO client (first_name, last_name, company, office_position, phone_number, email, request) VALUES ('${first_name}','${last_name}','${company}','${office_position}','${phone_number}','${email}', 'true') RETURNING *;`
+      );
+
+      res.json({
+        data: result.rows[0],
+        message: "Запрос успешно создан",
+      });
+    } catch (error) {
+      logger.error("client request create:", error);
+      return res.status(400).json({ error });
+    }
+  }
+
+  async acceptRequest(req, res) {
+    try {
+      const clientId = req.params.id;
+      const clientData = await db.query(
+        `SELECT * FROM client WHERE id = '${clientId}'`
+      );
+      if (!clientData.rowCount) {
+        return res.status(400).json({ message: "Пользователь не найден" });
+      }
+      const newClientData = req.body;
+
+      const payload = { ...clientData, ...newClientData };
+
+      await db.query(
+        `UPDATE client SET accept = 'true' WHERE id = '${clientId}';`
+      );
+      return res.json({ message: "Запрос успешно принят" });
+    } catch (error) {
+      logger.error("client request accept:", error);
+      return res.status(400).json({ error });
+    }
+  }
+
+  async rejectRequest(req, res) {
+    try {
+      deleteUser(req, res);
+    } catch (error) {
+      logger.error("client request delete:", error);
+      return res.status(400).json({ error });
+    }
+  }
 }
 
 module.exports = ClientController;
