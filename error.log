@@ -141,3 +141,25 @@
 {"code":"22P02","file":"numutils.c","length":108,"level":"error","line":"323","message":"admin get:  invalid input syntax for type integer: \"all\"","name":"error","position":"40","routine":"pg_strtoint32","severity":"ERROR","stack":"error: invalid input syntax for type integer: \"all\"\n    at Parser.parseErrorMessage (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/node_modules/pg-protocol/dist/parser.js:287:98)\n    at Parser.handlePacket (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/node_modules/pg-protocol/dist/parser.js:126:29)\n    at Parser.parse (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/node_modules/pg-protocol/dist/parser.js:39:38)\n    at Socket.<anonymous> (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/node_modules/pg-protocol/dist/index.js:11:42)\n    at Socket.emit (node:events:390:28)\n    at addChunk (node:internal/streams/readable:315:12)\n    at readableAddChunk (node:internal/streams/readable:289:9)\n    at Socket.Readable.push (node:internal/streams/readable:228:10)\n    at TCP.onStreamRead (node:internal/stream_base_commons:199:23)"}
 {"level":"error","message":"admins get:  candidate is not defined","stack":"ReferenceError: candidate is not defined\n    at getAllAdministrators (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/fields/administrator/administrator.controller.js:115:23)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
 {"level":"error","message":"admins get:  candidate is not defined","stack":"ReferenceError: candidate is not defined\n    at getAllAdministrators (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/fields/administrator/administrator.controller.js:115:23)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
+{"level":"error","message":"secret or public key must be provided","name":"JsonWebTokenError"}
+{"level":"error","message":"secret or public key must be provided","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"level":"error","message":"secret or public key must be provided","name":"JsonWebTokenError"}
+{"level":"error","message":"secret or public key must be provided","name":"JsonWebTokenError"}
+{"level":"error","message":"secret or public key must be provided","name":"JsonWebTokenError"}
+{"level":"error","message":"secret or public key must be provided","name":"JsonWebTokenError"}
+{"level":"error","message":"invalid signature","name":"JsonWebTokenError"}
+{"address":"127.0.0.1","code":"ECONNREFUSED","errno":-61,"level":"error","message":"client request accept: connect ECONNREFUSED 127.0.0.1:5432","port":5432,"stack":"Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1161:16)","syscall":"connect"}
