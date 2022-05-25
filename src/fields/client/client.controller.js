@@ -144,12 +144,9 @@ class ClientController {
       if (!clientData.rowCount) {
         return res.status(400).json({ message: "Пользователь не найден" });
       }
-      const newClientData = req.body;
-
-      const payload = { ...clientData, ...newClientData };
 
       await db.query(
-        `UPDATE client SET accept = 'true' WHERE id = '${clientId}';`
+        `UPDATE client SET accept = 'false' WHERE id = '${clientId}';`
       );
       return res.json({ message: "Запрос успешно принят" });
     } catch (error) {
