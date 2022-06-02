@@ -16,6 +16,17 @@ class AcceptController {
       if (!keys.rowCount) {
         return res.json({ message: "Ключ не действителен" });
       }
+
+      if (!checkAccept(key.rows[0].valid_until)) {
+        await db.query(
+          `UPDATE client SET request = 'true' WHERE id = '${keys.rows[0].client_id}';`
+        );
+        return res.json({
+          message:
+            'Срок действия ключа закончен. С вами свяжется сотрудник и выдаст новый. Если ваши контактные данные изменились, заполните форму "получить код активации".',
+        });
+      }
+
       const payload = {
         key,
         clientId: keys.rows[0].client_id,
