@@ -17,8 +17,7 @@ class AcceptController {
       if (!keys.rowCount) {
         return res.json({ message: "Ключ не действителен" });
       }
-
-      if (!checkAccept(key.rows[0].valid_until)) {
+      if (!checkAccept(keys.rows[0].valid_until)) {
         await db.query(
           `UPDATE client SET request = 'true' WHERE id = '${keys.rows[0].client_id}';`
         );
