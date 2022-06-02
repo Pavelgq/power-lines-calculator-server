@@ -155,9 +155,9 @@ class ClientController {
     }
   }
 
-  async rejectRequest(req, res) {
+  async rejectRequest(req, res, next) {
     try {
-      deleteUser(req, res);
+      await next(deleteUser(req, res));
     } catch (error) {
       logger.error("client request delete:", error);
       return res.status(400).json({ error });

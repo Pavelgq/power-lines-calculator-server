@@ -823,3 +823,6 @@
 {"address":"127.0.0.1","code":"ECONNREFUSED","errno":-61,"level":"error","message":"client request accept: connect ECONNREFUSED 127.0.0.1:5432","port":5432,"stack":"Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1161:16)","syscall":"connect"}
 {"level":"info","message":"Server running at 8080/"}
 {"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
