@@ -844,3 +844,4 @@
 {"level":"error","message":"accept check:  Cannot read properties of undefined (reading '0')","stack":"TypeError: Cannot read properties of undefined (reading '0')\n    at checkKeyAccept (/Users/pavelgordeev/Documents/projects/sheld-pipe-cable-server/src/fields/accept/accept.controller.js:22:39)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"}
 {"level":"info","message":"Server running at 8080/"}
 {"level":"info","message":"Server running at 8080/"}
+{"level":"info","message":"Server running at 8080/"}
