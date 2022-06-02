@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const logger = require("../../utils/logger");
 const db = require("../../server/db");
 const { generateKey, checkKeyDate } = require("../../utils/accept-utils");
+const { checkAccept } = require("../../utils/other");
 
 const jwtsecret = process.env.JWT_CLIENT_SECRET;
 
