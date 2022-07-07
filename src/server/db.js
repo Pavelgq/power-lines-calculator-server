@@ -6,8 +6,8 @@ if (process.env.DEV_MODE == 1) {
   dbConfig = {
     host: "localhost",
     port: 5432,
-    database: "newdatabase",
-    user: "pavelgordeev",
+    database: process.env.DATABASE_NAME,
+    user: process.env.DATABASE_USER,
     password: process.env.DB_PASSWORD,
   };
 } else {
