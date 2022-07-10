@@ -263,6 +263,23 @@
 
 <a name="accept"><h2>Accept</h2></a>
 
+### Проверка доступа
+
+#### Request
+
+`GET /api/v1/accept/profile`
+
+#### Response
+
+```json
+{
+  "accept": true/false,
+  "message": "..."
+}
+```
+
+- В заголовках запроса передать `accept-token` для проверки
+
 ### Проверка ключа
 
 #### Request

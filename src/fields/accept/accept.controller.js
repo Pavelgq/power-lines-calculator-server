@@ -7,6 +7,28 @@ const { checkAccept } = require("../../utils/other");
 const jwtsecret = process.env.JWT_CLIENT_SECRET;
 
 class AcceptController {
+  async profileKeyAccept(req, res) {
+    try {
+      const { accept_key, client_id } = req;
+      const keys = await db.query(
+        `SELECT * FROM accept WHERE client_key = '${accept_key}'`
+      );
+      if (!keys.rowCount || !checkAccept(keys.rows[0].valid_until)) {
+        await db.query(
+          `UPDATE client SET request = 'true' WHERE id = '${client_id}';`
+        );
+        return res.json({
+          accept: false,
+          message:
+            'Срок действия ключа закончен. С вами свяжется сотрудник и выдаст новый. Если ваши контактные данные изменились - заполните форму "получить код активации".',
+        });
+      }
+      return res.json({ accept: true, message: "Код актуален" });
+    } catch (error) {
+      logger.error("accept profile: ", error);
+      return res.status(400).json({ error });
+    }
+  }
   async checkKeyAccept(req, res) {
     try {
       const key = req.params.key;

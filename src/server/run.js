@@ -23,7 +23,9 @@ app.use(`/api/v1/admin`, administratorRoutes);
 app.use(`/api/v1/accept`, acceptRoutes);
 app.use(`/api/v1/action`, actionRoutes);
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  const connect = await pool.query("SELECT * from administrator");
+  console.log(connect);
   res.send("Power Lines Calculators Server");
 });
 

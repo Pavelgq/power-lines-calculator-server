@@ -6,13 +6,13 @@ function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null) return res.sendStatus(401);
-  console.log(process.env.JWT_ADMIN_SECRET);
+  // console.log(process.env.JWT_ADMIN_SECRET);
   jwt.verify(token, process.env.JWT_ADMIN_SECRET, (err, user) => {
     if (err) {
       logger.error(err);
       return res.sendStatus(403);
     }
-    console.log("check token:", user);
+    // console.log("check token:", user);
     req.user = user;
     next();
   });
@@ -33,7 +33,7 @@ function checkClientKey(req, res, next) {
         return res.sendStatus(403);
       }
       let { key, clientId } = payload;
-      console.log("check accept: ", key, "client id: ", clientId);
+      // console.log("check accept: ", key, "client id: ", clientId);
       req.accept_key = key;
       req.client_id = clientId;
       next();

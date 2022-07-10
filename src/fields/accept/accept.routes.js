@@ -1,7 +1,7 @@
 const { Router } = require(`express`);
 const logger = require("../../utils/logger");
 
-const { authenticateToken } = require("../../server/security");
+const { authenticateToken, checkClientKey } = require("../../server/security");
 
 const AcceptController = require("../accept/accept.controller");
 
@@ -20,6 +20,7 @@ acceptRouter.use((req, res, next) => {
   next();
 });
 
+acceptRouter.get("/profile", checkClientKey, controller.profileKeyAccept);
 acceptRouter.get("/check/:key", controller.checkKeyAccept);
 acceptRouter.post("/:id", authenticateToken, controller.createKeyAccept);
 acceptRouter.get("/:id", authenticateToken, controller.getKeyAccept);
