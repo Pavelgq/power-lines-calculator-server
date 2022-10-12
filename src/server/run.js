@@ -13,10 +13,10 @@ const administratorRoutes = require(`../fields/administrator/administrator.route
 const acceptRoutes = require(`../fields/accept/accept.routes`);
 const actionRoutes = require(`../fields/action/action.routes`);
 
-var options = {
-  key: fs.readFileSync("./src/config/cert.pem"),
-  cert: fs.readFileSync("./src/config/cert.pem"),
-};
+// var options = {
+//   key: fs.readFileSync("./src/config/cert.pem"),
+//   cert: fs.readFileSync("./src/config/cert.pem"),
+// };
 
 const app = express();
 
