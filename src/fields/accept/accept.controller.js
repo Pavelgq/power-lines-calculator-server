@@ -118,7 +118,7 @@ class AcceptController {
   async changeKeyAccept(req, res) {
     try {
       const clientId = req.params.id;
-      const { validDate } = req.body;
+      const { validDate, changeKey } = req.body;
       const clientData = await db.query(
         `SELECT * FROM accept WHERE client_id = '${clientId}'`
       );
@@ -126,12 +126,18 @@ class AcceptController {
       if (!clientData.rowCount) {
         return res.status(400).json({ message: "Пользователь не найден" });
       }
-      const newKey = generateKey(validDate);
+      const newKey = changeKey
+        ? generateKey(validDate)
+        : clientData.rows[0].client_key;
 
       await db.query(
         `UPDATE accept SET client_key = '${newKey}', valid_until = '${validDate}', update = now() WHERE client_id = '${clientId}';`
       );
-      return res.json({ message: "Ключ успешно изменен" });
+      return res.json({
+        key: newKey,
+        valid_until: validDate,
+        message: "Ключ успешно изменен",
+      });
     } catch (error) {
       logger.error("accept change: ", error);
       return res.status(400).json({ error });
