@@ -1,3 +1,6 @@
+const fs = require("fs");
+const http = require("http");
+const https = require("https");
 const express = require("express");
 const cors = require("cors");
 const logger = require("../utils/logger");
@@ -9,6 +12,11 @@ const clientRouter = require(`../fields/client/client.routes`);
 const administratorRoutes = require(`../fields/administrator/administrator.routes`);
 const acceptRoutes = require(`../fields/accept/accept.routes`);
 const actionRoutes = require(`../fields/action/action.routes`);
+
+var options = {
+  key: fs.readFileSync("./src/config/cert.pem"),
+  cert: fs.readFileSync("./src/config/cert.pem"),
+};
 
 const app = express();
 
@@ -47,11 +55,15 @@ const PORT = process.env.PORT || 8080;
 
 module.exports = {
   run() {
-    app.listen(PORT, () => {
-      logger.info(`Server running at ${PORT}/`);
-    });
+    if (process.env.NODE_ENV === "developer") {
+      app.listen(PORT, () => {
+        logger.info(`Http server running at ${PORT}`);
+      });
+    } else {
+      https.createServer(options, app).listen(PORT, function () {
+        console.log(`Https server running at ${PORT}`);
+      });
+    }
   },
   app,
 };
-
-// TODO: Везде добавить сообщение ответ при ошибке

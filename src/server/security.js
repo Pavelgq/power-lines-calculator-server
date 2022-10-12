@@ -6,7 +6,6 @@ function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null) return res.sendStatus(401);
-  // console.log(process.env.JWT_ADMIN_SECRET);
   jwt.verify(token, process.env.JWT_ADMIN_SECRET, (err, user) => {
     if (err) {
       logger.error(err);

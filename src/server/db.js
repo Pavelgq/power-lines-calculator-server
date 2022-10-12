@@ -1,9 +1,9 @@
 const Pool = require("pg").Pool;
 
 let dbConfig;
-console.log(process.env.DEV_MODE);
-if (process.env.DEV_MODE == 1) {
-  console.log("local");
+console.log("Mode", process.env.NODE_ENV);
+if (process.env.NODE_ENV == "development") {
+  console.log("Local database is used");
   dbConfig = {
     host: "localhost",
     port: 5432,
@@ -12,7 +12,7 @@ if (process.env.DEV_MODE == 1) {
     password: process.env.DB_PASSWORD,
   };
 } else {
-  console.log("heroku");
+  console.log("Used database on heroku server");
   dbConfig = {
     connectionString: process.env.DATABASE_URL,
     ssl: {
