@@ -171,7 +171,7 @@ class AdministratorController {
       };
       const token = jwt.sign(payload, jwtsecret);
 
-      console.log(changeData.rows[0]);
+      // console.log(changeData.rows[0]);
 
       return res.json({
         ...payload,

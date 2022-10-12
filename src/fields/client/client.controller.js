@@ -2,7 +2,6 @@ const logger = require("../../utils/logger");
 const db = require("../../server/db");
 const { checkAccept } = require("../../utils/other");
 const { all } = require("express/lib/application");
-
 class ClientController {
   async createUser(req, res) {
     try {
@@ -33,7 +32,6 @@ class ClientController {
       const allUsers = await db.query(
         `SELECT client.*, accept.client_key, accept.update, accept.valid_until, ROW_NUMBER () OVER (ORDER BY client.creation_date) as ordinal FROM client LEFT JOIN accept ON accept.client_id = client.id;`
       );
-      console.log(allUsers);
       const result = allUsers.rows.map((u) => {
         if (checkAccept(u.valid_until)) {
           u.isAccept = true;
@@ -144,7 +142,6 @@ class ClientController {
       if (!clientData.rowCount) {
         return res.status(400).json({ message: "Пользователь не найден" });
       }
-      console.log(clientData);
       await db.query(
         `UPDATE client SET request = 'false' WHERE id = '${clientId}';`
       );
@@ -160,6 +157,20 @@ class ClientController {
       await next(deleteUser(req, res));
     } catch (error) {
       logger.error("client request delete:", error);
+      return res.status(400).json({ error });
+    }
+  }
+
+  async downloadUsers(req, res, next) {
+    try {
+      const clientData = await db.query(`SELECT * FROM client`);
+      if (!clientData.rowCount) {
+        return res.status(400).json({ message: "Пользователи не найдены" });
+      }
+
+      res.json(clientData.rows);
+    } catch (error) {
+      logger.error("client download excel:", error);
       return res.status(400).json({ error });
     }
   }

@@ -21,6 +21,7 @@ clientRouter.use((req, res, next) => {
 });
 
 clientRouter.post("/create", authenticateToken, controller.createUser);
+clientRouter.get("/download", controller.downloadUsers);
 clientRouter.get("/all", authenticateToken, controller.getUsers);
 clientRouter.get("/:id", authenticateToken, controller.getOneUser);
 clientRouter.put("/:id", authenticateToken, controller.updateUser);
