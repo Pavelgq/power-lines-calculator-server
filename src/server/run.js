@@ -55,15 +55,15 @@ const PORT = process.env.PORT || 8080;
 
 module.exports = {
   run() {
-    if (process.env.NODE_ENV === "developer") {
-      app.listen(PORT, () => {
-        logger.info(`Http server running at ${PORT}`);
-      });
-    } else {
-      https.createServer(options, app).listen(PORT, function () {
-        console.log(`Https server running at ${PORT}`);
-      });
-    }
+    // if (process.env.NODE_ENV === "developer") {
+    app.listen(PORT, () => {
+      logger.info(`Http server running at ${PORT}`);
+    });
+    // } else {
+    //   https.createServer(options, app).listen(PORT, function () {
+    //     console.log(`Https server running at ${PORT}`);
+    //   });
+    // }
   },
   app,
 };
