@@ -19,17 +19,6 @@ class ClientController {
         `INSERT INTO client (first_name, last_name, company, office_position, phone_number, email) VALUES ('${first_name}','${last_name}','${company}','${office_position}','${phone_number}','${email}') RETURNING *;`
       );
 
-      if (email) {
-        let result = await transporter.sendMail({
-          from: '"Energotek" <key@energotek.ru>',
-          to: `${email}`,
-          subject: "Заявка получена",
-          text: `Ваша заявка получена, ключ будет сгенерирован в течение 24 часов`,
-          html: `Здравствуйте! \n\n Ваша заявка получена, ключ будет сгенерирован в течение 24 час.\n\n\n Команда сайта <a href="https://energotek.ru">energotek.ru</a>`,
-        });
-        console.log(result);
-      }
-
       res.json({
         data: result.rows[0],
         message: "Пользователь успешно создан",
@@ -134,6 +123,17 @@ class ClientController {
       const result = await db.query(
         `INSERT INTO client (first_name, last_name, company, office_position, phone_number, email, request) VALUES ('${first_name}','${last_name}','${company}','${office_position}','${phone_number}','${email}', 'true') RETURNING *;`
       );
+
+      if (email) {
+        let result = await transporter.sendMail({
+          from: '"Energotek" <key@energotek.ru>',
+          to: `${email}`,
+          subject: "Заявка получена",
+          text: `Ваша заявка получена, ключ будет сгенерирован в течение 24 часов`,
+          html: `Здравствуйте! <br/><br/> Ваша заявка получена, ключ будет сгенерирован в течение 24 часов.<br/><br/> Команда сайта <a href="https://energotek.ru">energotek.ru</a>`,
+        });
+        console.log(result);
+      }
 
       res.json({
         data: result.rows[0],
