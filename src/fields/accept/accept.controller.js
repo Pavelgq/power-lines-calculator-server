@@ -3,6 +3,7 @@ const logger = require("../../utils/logger");
 const db = require("../../server/db");
 const { generateKey, checkKeyDate } = require("../../utils/accept-utils");
 const { checkAccept } = require("../../utils/other");
+const { transporter } = require("../../server/mail");
 
 const jwtsecret = process.env.JWT_CLIENT_SECRET;
 
@@ -157,6 +158,24 @@ class AcceptController {
       return res.json({ message: "Ключ успешно удален" });
     } catch (error) {
       logger.error("accept delete: ", error);
+      return res.status(400).json({ error });
+    }
+  }
+
+  async sendKeyAccept(req, res) {
+    try {
+      const { key, email } = req.body;
+      let result = await transporter.sendMail({
+        from: '"Energotek" <key@energotek.ru>',
+        to: `${email}`,
+        subject: "Ключ для использования программ КАБЕЛЬ, ЭКРАН, ТРУБА",
+        text: `Для программ КАБЕЛЬ, ЭКРАН, ТРУБА используйте код активации: ${key}`,
+        html: `Здравствуйте! <br/><br/> Для программ КАБЕЛЬ, ЭКРАН, ТРУБА используйте код активации: <b>${key}</b><br/><br/> Команда сайта <a href="https://energotek.ru">energotek.ru</a>`,
+      });
+      console.log(result);
+      res.json({ message: "Ключ успешно отправлен клиенту", ...result });
+    } catch (error) {
+      logger.error("accept sendKey: ", error);
       return res.status(400).json({ error });
     }
   }

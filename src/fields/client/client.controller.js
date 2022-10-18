@@ -2,6 +2,7 @@ const logger = require("../../utils/logger");
 const db = require("../../server/db");
 const { checkAccept } = require("../../utils/other");
 const { all } = require("express/lib/application");
+const { transporter } = require("../../server/mail");
 class ClientController {
   async createUser(req, res) {
     try {
@@ -17,6 +18,17 @@ class ClientController {
       const result = await db.query(
         `INSERT INTO client (first_name, last_name, company, office_position, phone_number, email) VALUES ('${first_name}','${last_name}','${company}','${office_position}','${phone_number}','${email}') RETURNING *;`
       );
+
+      if (email) {
+        let result = await transporter.sendMail({
+          from: '"Energotek" <key@energotek.ru>',
+          to: `${email}`,
+          subject: "Заявка получена",
+          text: `Ваша заявка получена, ключ будет сгенерирован в течение 24 часов`,
+          html: `Здравствуйте! \n\n Ваша заявка получена, ключ будет сгенерирован в течение 24 час.\n\n\n Команда сайта <a href="https://energotek.ru">energotek.ru</a>`,
+        });
+        console.log(result);
+      }
 
       res.json({
         data: result.rows[0],
@@ -163,7 +175,9 @@ class ClientController {
 
   async downloadUsers(req, res, next) {
     try {
-      const clientData = await db.query(`SELECT * FROM client`);
+      const clientData = await db.query(
+        `SELECT * FROM client ORDER BY creation_date`
+      );
       if (!clientData.rowCount) {
         return res.status(400).json({ message: "Пользователи не найдены" });
       }

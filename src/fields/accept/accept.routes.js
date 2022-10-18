@@ -22,6 +22,7 @@ acceptRouter.use((req, res, next) => {
 
 acceptRouter.get("/profile", checkClientKey, controller.profileKeyAccept);
 acceptRouter.get("/check/:key", controller.checkKeyAccept);
+acceptRouter.post("/send", authenticateToken, controller.sendKeyAccept);
 acceptRouter.post("/:id", authenticateToken, controller.createKeyAccept);
 acceptRouter.get("/:id", authenticateToken, controller.getKeyAccept);
 acceptRouter.put("/:id", authenticateToken, controller.changeKeyAccept);

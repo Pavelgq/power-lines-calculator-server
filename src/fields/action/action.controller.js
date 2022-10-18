@@ -39,12 +39,11 @@ class ActionControllers {
           }
         );
       }
-      const lastActionQuery = `SELECT * FROM action WHERE client_id=${client_id} and program_type=${program_type}  ORDER BY date DESC LIMIT 1`;
+      const lastActionQuery = `SELECT * FROM action WHERE client_id=${client_id} and program_type=${program_type} and group_id=0 ORDER BY date DESC LIMIT 1`;
       const lastActionResult = await db.query(lastActionQuery);
       let lastActionId = 0;
       if (lastActionResult.rowCount) {
-        console.log(moment().isSame(lastActionResult.rows[0].date), "day");
-        if ((moment().isSame(lastActionResult.rows[0].date), "day")) {
+        if (moment().isSame(lastActionResult.rows[0].date, "day")) {
           if (lastActionResult.rows[0].group_id) {
             lastActionId = lastActionResult.rows[0].group_id;
           } else {
