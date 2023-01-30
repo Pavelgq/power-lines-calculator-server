@@ -14,6 +14,7 @@ class AcceptController {
       const keys = await db.query(
         `SELECT * FROM accept WHERE client_key = '${accept_key}'`
       );
+
       if (!keys.rowCount || !checkAccept(keys.rows[0].valid_until)) {
         await db.query(
           `UPDATE client SET request = 'true' WHERE id = '${client_id}';`
@@ -24,7 +25,16 @@ class AcceptController {
             'Срок действия ключа закончен. С вами свяжется сотрудник и выдаст новый. Если ваши контактные данные изменились - заполните форму "получить код активации".',
         });
       }
-      return res.json({ accept: true, message: "Код актуален" });
+      const user = await db.query(
+        `SELECT * FROM client WHERE client_id = '${client_id}';`
+      );
+      const isAdmin = user.rows[0].admin_flag;
+
+      return res.json({
+        accept: true,
+        admin: isAdmin,
+        message: "Код актуален",
+      });
     } catch (error) {
       logger.error("accept profile: ", error);
       return res.status(400).json({ error });
@@ -50,12 +60,21 @@ class AcceptController {
         });
       }
 
+      const user = await db.query(
+        `SELECT * FROM client WHERE client_id = '${client_id}';`
+      );
+      const isAdmin = user.rows[0].admin_flag;
+
       const payload = {
         key,
         clientId: keys.rows[0].client_id,
       };
       const token = jwt.sign(payload, jwtsecret);
-      return res.json({ acceptToken: token, id: keys.rows[0].client_id });
+      return res.json({
+        acceptToken: token,
+        admin: isAdmin,
+        id: keys.rows[0].client_id,
+      });
     } catch (error) {
       logger.error("accept check: ", error);
       return res.status(400).json({ error });

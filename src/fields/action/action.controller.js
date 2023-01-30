@@ -5,7 +5,8 @@ const logger = require("../../utils/logger");
 const db = require("../../server/db");
 const { generateKey, checkKey } = require("../../utils/accept-utils");
 const { query } = require("../../utils/logger");
-var moment = require("moment");
+const moment = require("moment");
+const generateDocx = require("../../server/doc");
 
 const { groupByPeriod } = require("../../utils/filters");
 
@@ -102,8 +103,6 @@ class ActionControllers {
           break;
       }
 
-      console.log(queryPeriod);
-
       const clientId = filters.client_id || -1;
       delete filters.client_id;
       const programType = filters.program_type != 0 ? filters.program_type : -1;
@@ -198,7 +197,6 @@ class ActionControllers {
 
   async getSaveFile(req, res, next) {
     try {
-      console.log("file");
       let options = {
         root: path.join(__dirname, "../../../data/calc-data"),
         dotfiles: "deny",
@@ -207,7 +205,6 @@ class ActionControllers {
           "x-sent": true,
         },
       };
-      console.log(options);
       let fileName = req.params.name;
       res.sendFile(fileName, options, function (err) {
         if (err) {
@@ -221,6 +218,53 @@ class ActionControllers {
       return res.status(400).json({ error });
     }
   }
+
+  async downloadTemplate(req, res, next) {
+    try {
+      const { data, template } = req.body;
+      let pathStr;
+      switch (template) {
+        case 1:
+          pathStr = "../../templates/pipe-template-all.docx";
+          break;
+        case 2:
+          pathStr = "../../templates/pipe-template-all.docx";
+          break;
+        case 3:
+          pathStr = "../../templates/pipe-template-all.docx";
+          break;
+        default:
+          pathStr = "../../templates/pipe-template-all.docx";
+          break;
+      }
+
+      await generateDocx(Object.freeze(data), pathStr);
+      if (!data) {
+        return res.status(400).json({ message: "Данные не корректны" });
+      }
+      let options = {
+        root: path.join(__dirname, "../../../"),
+        dotfiles: "deny",
+        headers: {
+          "x-timestamp": Date.now(),
+          "x-sent": true,
+        },
+      };
+      let fileName = "output.docx";
+
+      res.sendFile(fileName, options, function (err) {
+        if (err) {
+          next(err);
+        } else {
+          console.log("Sent:", fileName);
+        }
+      });
+    } catch (error) {
+      logger.error("client download template:", error);
+      return res.status(400).json({ error });
+    }
+  }
+
   async authorizeAction(req, res) {}
 }
 

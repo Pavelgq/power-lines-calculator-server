@@ -25,6 +25,7 @@ actionRouter.post("/add", checkClientKey, controller.createNewAction);
 actionRouter.get("/all", authenticateToken, controller.getAllActions);
 actionRouter.get("/client/:id", checkClientKey, controller.getClientActions);
 actionRouter.get("/file/:name", controller.getSaveFile);
+actionRouter.post("/template", controller.downloadTemplate);
 actionRouter.post("/auth", checkClientKey, controller.authorizeAction);
 
 module.exports = actionRouter;

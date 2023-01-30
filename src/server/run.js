@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const logger = require("../utils/logger");
 require("dotenv").config();
+require("./doc");
 
 const pool = require("./db");
 
