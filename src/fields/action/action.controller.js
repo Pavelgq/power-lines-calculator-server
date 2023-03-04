@@ -225,10 +225,10 @@ class ActionControllers {
       let pathStr;
       switch (template) {
         case 1:
-          pathStr = "../../templates/pipe-template-all.docx";
+          pathStr = "../../templates/pipe-template-tr.docx";
           break;
         case 2:
-          pathStr = "../../templates/pipe-template-all.docx";
+          pathStr = "../../templates/pipe-template-gnb.docx";
           break;
         case 3:
           pathStr = "../../templates/pipe-template-all.docx";

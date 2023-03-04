@@ -78,7 +78,15 @@ class ClientController {
       const payload = { ...clientData, ...newClientData };
 
       await db.query(
-        `UPDATE client SET first_name = '${payload.first_name}', last_name = '${payload.last_name}', company = '${payload.company}', office_position = '${payload.office_position}', phone_number = '${payload.phone_number}', email = '${payload.email}' WHERE id = '${clientId}';`
+        `UPDATE client SET 
+          first_name = '${payload.first_name}', 
+          last_name = '${payload.last_name}', 
+          company = '${payload.company}', 
+          office_position = '${payload.office_position}', 
+          phone_number = '${payload.phone_number}', 
+          email = '${payload.email}', 
+          admin_flag = '${payload?.admin_flag}' 
+        WHERE id = '${clientId}';`
       );
       return res.json({ message: "Данные пользователя изменены успешно" });
     } catch (error) {
