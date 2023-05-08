@@ -57,8 +57,6 @@ class ActionControllers {
         params
       )}', '${lastActionId}') RETURNING *;`;
 
-      console.log(queryString);
-
       const result = await db.query(queryString);
 
       return res.json({
@@ -152,7 +150,7 @@ class ActionControllers {
       const actionQuery = `SELECT * FROM action ${whereString} ${newMainFilter} (${conditionsFilter}) ORDER BY ${sortField} ${
         sorting[sortField]
       } LIMIT ${limit || "ALL"} OFFSET ${offset};`;
-      console.log(actionQuery);
+
       actions = await db.query(actionQuery);
       maxCount = await db.query(
         `SELECT count(*) FROM action ${whereString} ${newMainFilter} (${conditionsFilter});`
@@ -222,6 +220,25 @@ class ActionControllers {
   async downloadTemplate(req, res, next) {
     try {
       const { data, template } = req.body;
+      const { client_id } = req;
+
+      const dateNow = new Date().toLocaleDateString("ru-RU");
+
+      const personData = {
+        full_name: "",
+        date_now: dateNow.toString(),
+      };
+
+      const clientData = await db.query(
+        `SELECT * FROM client WHERE id = '${client_id}';`
+      );
+
+      if (!clientData.rowCount) {
+        personData.full_name = "ERROR: UNKNOWN";
+      } else {
+        personData.full_name = `${clientData.rows[0].last_name} ${clientData.rows[0].first_name}`;
+      }
+
       let pathStr;
       switch (template) {
         case 1:
@@ -237,9 +254,9 @@ class ActionControllers {
           pathStr = "../../templates/pipe-template-all.docx";
           break;
       }
-
-      await generateDocx(Object.freeze(data), pathStr);
-      if (!data) {
+      const newData = { ...data, ...personData };
+      generateDocx(Object.freeze(newData), pathStr);
+      if (!newData) {
         return res.status(400).json({ message: "Данные не корректны" });
       }
       let options = {
@@ -261,6 +278,24 @@ class ActionControllers {
       });
     } catch (error) {
       logger.error("client download template:", error);
+      return res.status(400).json({ error });
+    }
+  }
+
+  async downloadActions(req, res, next) {
+    try {
+      const actionsData = await db.query(
+        `SELECT action.id, client.first_name, client.last_name, action.* FROM action 
+        LEFT OUTER JOIN client on client.id = action.client_id;`
+      );
+
+      if (!actionsData.rowCount) {
+        return res.status(400).json({ message: "Пользователи не найдены" });
+      }
+
+      res.json(actionsData.rows);
+    } catch (error) {
+      logger.error("actions download excel:", error);
       return res.status(400).json({ error });
     }
   }

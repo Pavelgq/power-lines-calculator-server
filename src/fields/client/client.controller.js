@@ -184,8 +184,10 @@ class ClientController {
   async downloadUsers(req, res, next) {
     try {
       const clientData = await db.query(
-        `SELECT * FROM client ORDER BY creation_date`
+        `SELECT client.*, accept.client_id, accept.client_key, accept.update, accept.valid_until FROM client 
+        LEFT OUTER JOIN accept on accept.client_id = client.id;`
       );
+
       if (!clientData.rowCount) {
         return res.status(400).json({ message: "Пользователи не найдены" });
       }
