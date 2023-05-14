@@ -22,7 +22,7 @@ actionRouter.use((req, res, next) => {
 });
 
 actionRouter.post("/add", checkClientKey, controller.createNewAction);
-actionRouter.get("/download", authenticateToken, controller.downloadActions);
+actionRouter.post("/download", authenticateToken, controller.downloadActions);
 actionRouter.get("/all", authenticateToken, controller.getAllActions);
 actionRouter.get("/client/:id", checkClientKey, controller.getClientActions);
 actionRouter.get("/file/:name", controller.getSaveFile);

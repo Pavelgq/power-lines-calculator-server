@@ -284,12 +284,17 @@ class ActionControllers {
 
   async downloadActions(req, res, next) {
     try {
-      const request = `SELECT action.id, client.first_name, client.company, client.last_name, action.* FROM action 
+      const { programType } = req.body;
+      const request =
+        program_type !== undefined && program_type != -1
+          ? `SELECT action.id, client.first_name, client.company, client.last_name, action.* FROM action
+        LEFT OUTER JOIN client on client.id = action.client_id WHERE program_type = ${programType};`
+          : `SELECT action.id, client.first_name, client.company, client.last_name, action.* FROM action 
         LEFT OUTER JOIN client on client.id = action.client_id;`;
       const actionsData = await db.query(request);
 
       if (!actionsData.rowCount) {
-        return res.status(400).json({ message: "Пользователи не найдены" });
+        return res.status(400).json({ message: "Действия не найдены" });
       }
 
       res.json(actionsData.rows);
